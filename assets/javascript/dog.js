@@ -15,9 +15,21 @@ function animal (){
         // Creating a variable to shorten path to get to dog info
         var petInfo = data.petfinder.pet
         console.log(petInfo);
+        // Var to determine name of the pet
+        var petName = petInfo.name.$t;
+        console.log(petName);
         // Var to determine age of the pet 
         var petAge = petInfo.age.$t;
         console.log(petAge);
+        // Var to determine gender of the pet
+        var petGender = petInfo.sex.$t;
+        console.log(petGender);
+        if(petGender == "M"){
+          petGender = "Male"
+        } else {
+          petGender = "Female"
+        };
+        console.log(petGender);
         // Var to determine the breed of the pet. If multiple breeds, set the first value 
         // equal to the breed value
         if(petInfo.breeds.breed[0] != undefined){
@@ -39,8 +51,9 @@ function animal (){
         for(i=0; i<petInfo.media.photos.photo.length; i++){
           var currentPhoto = petInfo.media.photos.photo[i];
           dogPhotos.push(currentPhoto.$t);
-          console.log(dogPhotos);
-        }
+        };
+        console.log(dogPhotos);
+        // 
       },
       error : function (request, error)
       {
