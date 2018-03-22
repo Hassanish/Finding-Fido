@@ -23,7 +23,6 @@ function animal (){
         console.log(petAge);
         // Var to determine gender of the pet
         var petGender = petInfo.sex.$t;
-        console.log(petGender);
         if(petGender == "M"){
           petGender = "Male"
         } else {
@@ -40,6 +39,9 @@ function animal (){
           var petBreed = petInfo.breeds.breed.$t;
           console.log(petBreed);
         };
+        // Descr from shelter
+        var petDesc = petInfo.description.$t;
+        console.log(petDesc);
         // Finding zip code of shelter
         var shelterZip = petInfo.contact.zip.$t;
         console.log(shelterZip);
