@@ -17,11 +17,13 @@ var petSpecial = "Unknown";
 var shelterEmail;
 var shelterPhone;
 var shelterZip;
+var shelterID;
+var shelterName;
 var shelterFullAddress;
 var dogPhotos =[];
 
-// Creating the animal function to pull all relevant information from the Petfinder API
-function animal (){
+// Creating the animal function to pull all relevant information from the Petfinder API. This is for RANDOM dogs.
+function randomDog (){
   var apiKey = "359eebb45ac45f0d4449411094f651f8";
   var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
@@ -153,6 +155,10 @@ function animal (){
         // Phone number of the shelter
         shelterPhone = petInfo.contact.phone.$t;
 
+        // ID of the shelter
+        shelterID = petInfo.shelterId.$t;
+        console.log(shelterID);
+
         // Loading photos of the dog into an array
         dogPhotos = [];
         for(i=0; i<petInfo.media.photos.photo.length; i++){
@@ -168,6 +174,51 @@ function animal (){
     })
   };
 
+// Find pets based on criteria
+function findPet (){
+  var apiKey = "359eebb45ac45f0d4449411094f651f8";
+  var queryURL = "http://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
+
+    $.ajax({
+      type : 'GET',
+      data : {},
+      url : queryURL+'&callback=?' ,
+      dataType: 'json',
+      success : function(data) { 
+        console.log(data);
+      },
+      error : function (request, error)
+      {
+        alert("Request: "+JSON.stringify(request));
+      }
+    })
+  };
+
+  // Find shelter name based on ID
+  function findShelterName (){
+    var apiKey = "359eebb45ac45f0d4449411094f651f8";
+    var queryURL = "http://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
+  
+      $.ajax({
+        type : 'GET',
+        data : {},
+        url : queryURL+'&callback=?' ,
+        dataType: 'json',
+        success : function(data) { 
+          if(data.petfinder.shelter.name.$t != undefined){
+            shelterName = data.petfinder.shelter.name.$t;
+          } else {
+            shelterName = "Unknown";
+          };
+        },
+        error : function (request, error)
+        {
+          alert("Request: "+JSON.stringify(request));
+        }
+      })
+    };
+  
+  // Reset function
   function reset(){
     petInfo= " ";
     petName = " ";
@@ -190,15 +241,39 @@ function animal (){
     dogPhotos =[];
   };
 
+  // Dummy function to communicate with map.js 
   function buildMap (address){
   };
   
-  animal();
-  reset();
+
+randomDog();
+setTimeout(findShelterName, 5000);
+// findPet();
+// reset();
 
 // On button click, run the following fuctions
-$(".button").on("click", function(){
-  animal();
-})
+$(".showDogs").on("click", function(){
+  for(i=0; i<10; i++){
+    // Run the randomDog API call 
+    randomDog();
+    // Create new page elements
+    var newDiv = $("<div>");
+    var newImg = $("<img>");
+    var newP1 = $("<p");
+    var newP2 = $("<p");
+
+    // Change the attributes and text of created elements
+    newImg.atrr("src", dogPhotos[0]);
+    newP1.text(petName);
+    newP2.text(petBreed);
+
+    // Append to the newly created div
+    newDiv.append(newImg);
+    newDiv.append(newP1);
+    newDiv.append(newP2);
+    // Append div to the page
+    $(".randomDog").newDiv;
+  };
+  });
 
 });
