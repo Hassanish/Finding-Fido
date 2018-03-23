@@ -25,7 +25,8 @@ var mapLocation;
   var geocoder;
   var map;
   var address = "1890 Buford Ave, St Paul, MN 55108";
-  function initialize() {
+  function initialize() 
+  {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(-34.397, 150.644);
     var mapOptions = {
@@ -33,7 +34,7 @@ var mapLocation;
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    codeAddress();
+    getMapAddress();
 
 }
 
@@ -43,9 +44,9 @@ var mapLocation;
 // FUNCTIONS
 // --------------------------------------------------------------------------
 
-  function codeAddress() {
+  function buildMap (address) {
     // var address = document.getElementById('address').value;
-   
+   initialize()
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == 'OK') {
         map.setCenter(results[0].geometry.location);
@@ -55,7 +56,8 @@ var mapLocation;
             icon: "assets/images/dog-icon.png",
             animation: google.maps.Animation.DROP,
             // reference:  https://developers.google.com/maps/documentation/javascript/examples/marker-animations
-            title: "Name of Shelter"
+            title: 'Name of Shelter',
+            label: 'Name of Shelter'
         });
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
