@@ -34,30 +34,50 @@ var mapLocation;
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-    buildMap();
+
+    buildMap ();
 
 }
 
-
+// var markerIcon = {
+//   path: assets/images/dog-icon.png,
+//   // scaledSize: new google.maps.Size(80, 80),
+//   origin: new google.maps.Point(100,100),
+//   anchor: new google.maps.Point(1132,1165),
+//   labelOrigin: new google.maps.Point(1480,1566)
+// };
 
 
 // FUNCTIONS
 // --------------------------------------------------------------------------
 
-  function buildMap (address) {
+  function buildMap () {
     // var address = document.getElementById('address').value;
-   initialize()
+  
     geocoder.geocode( { 'address': address}, function(results, status) {
       if (status == 'OK') {
         map.setCenter(results[0].geometry.location);
         var marker = new google.maps.Marker({
             map: map,
             position: results[0].geometry.location,
-            icon: "assets/images/dog-icon.png",
+            // icon: "assets/images/dog-icon.png",
+            icon: {
+              labelOrigin: new google.maps.Point(20, 50),
+              url: 'assets/images/dog-icon.png',
+              size: new google.maps.Size(40, 40),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(0, 0),
+            },
             animation: google.maps.Animation.DROP,
             // reference:  https://developers.google.com/maps/documentation/javascript/examples/marker-animations
-            title: 'Name of Shelter',
-            label: 'Name of Shelter'
+            // title: 'Name of Shelter',
+            labelOrigin: (0,100),
+            label: {
+              color: 'red',
+              fontWeight: 'bold',
+              text: 'Extra Extra Extra Extra Extra Loooooong Name',
+            },
+            // label: 'Extra Extra Extra Extra Extra Loooooong Name'
         });
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
