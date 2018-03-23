@@ -17,6 +17,7 @@ var petSpecial = "Unknown";
 var shelterEmail;
 var shelterPhone;
 var shelterZip;
+var shelterFullAddress;
 var dogPhotos =[];
 
 // Creating the animal function to pull all relevant information from the Petfinder API
@@ -135,6 +136,9 @@ function animal (){
         // Zip code of shelter
         shelterZip = petInfo.contact.zip.$t;
 
+        // Full address of shelter"
+        shelterFullAddress = petInfo.contact.address1.$t + ", " + petInfo.contact.city.$t
+
         // Email contact of shelter
         shelterEmail = petInfo.contact.email.$t; 
 
@@ -158,24 +162,25 @@ function animal (){
   };
 
   function reset(){
-    var petInfo= " ";
-    var petName = " ";
-    var petAge= " ";
-    var petGender= " ";
-    var petBreed= " ";
-    var petSize= " ";
-    var breedSite= " ";
-    var petDesc= " ";
-    var petNeuter = "Unknown";
-    var petShots = "Unknown";
-    var petKids = "Unknown";
-    var petHouseTrained = "Unknown";
-    var petCats = "Unknown";
-    var petSpecial = "Unknown";
-    var shelterEmail= " ";
-    var shelterPhone= " ";
-    var shelterZip= " ";
-    var dogPhotos =[];
+    petInfo= " ";
+    petName = " ";
+    petAge= " ";
+    petGender= " ";
+    petBreed= " ";
+    petSize= " ";
+    breedSite= " ";
+    petDesc= " ";
+    petNeuter = "Unknown";
+    petShots = "Unknown";
+    petKids = "Unknown";
+    petHouseTrained = "Unknown";
+    petCats = "Unknown";
+    petSpecial = "Unknown";
+    shelterEmail= " ";
+    shelterPhone= " ";
+    shelterZip= " ";
+    shelterFullAddress= " ";
+    dogPhotos =[];
   }
   
   animal();
