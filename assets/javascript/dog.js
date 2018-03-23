@@ -145,6 +145,7 @@ function animal (){
         };
 
         console.log(shelterFullAddress);
+        buildMap(shelterFullAddress);
 
         // Email contact of shelter
         shelterEmail = petInfo.contact.email.$t; 
@@ -159,7 +160,6 @@ function animal (){
           dogPhotos.push(currentPhoto.$t);
         };
         console.log(dogPhotos);
-      
       },
       error : function (request, error)
       {
@@ -188,7 +188,10 @@ function animal (){
     shelterZip= " ";
     shelterFullAddress= " ";
     dogPhotos =[];
-  }
+  };
+
+  function buildMap (address){
+  };
   
   animal();
   reset();
