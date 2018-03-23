@@ -47,7 +47,7 @@ function animal (){
         } else {
           petGender = "Female"
         };
-        console.log(petGender);
+
         // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
         if(petInfo.breeds.breed[0] != undefined){
           petBreed = petInfo.breeds.breed[0];
