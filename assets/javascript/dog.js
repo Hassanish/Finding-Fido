@@ -51,11 +51,15 @@ function findPet (){
       url : queryURL+'&callback=?' ,
       dataType: 'json',
       data : {
-  
+        // Set these equal to the input boxes*****
+        size: "L",
+        sex: "M",
+        location: "55415",
+        age : "Baby",
       },
       success : function(data) { 
-        console.log(data);
         setDogInfo(data);
+        // Use input boxes to hide certain results based on input******
       },
       error : function (request, error)
       {
