@@ -12,12 +12,14 @@ var petNeuter = "Unknown";
 var petShots = "Unknown";
 var petKids = "Unknown";
 var petHouseTrained = "Unknown";
+var petCats = "Unknown";
+var petSpecial = "Unknown";
 var shelterEmail;
 var shelterPhone;
 var shelterZip;
 var dogPhotos =[];
 
-// Creating the animal function to pull information from the Petfinder API
+// Creating the animal function to pull all relevant information from the Petfinder API
 function animal (){
   var apiKey = "359eebb45ac45f0d4449411094f651f8";
   var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
@@ -45,7 +47,7 @@ function animal (){
         } else {
           petGender = "Female"
         };
-        console.log(petGender);
+
         // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
         if(petInfo.breeds.breed[0] != undefined){
           petBreed = petInfo.breeds.breed[0];
@@ -93,7 +95,7 @@ function animal (){
         // Background info on dog (neutered, vaccinated, good with kids, housetrained)
         var petOptions = petInfo.options.option;
         console.log(petOptions);
-        if(petOptions != undefined){
+        if(Array.isArray(petOptions)){
           for(i=0; i<petOptions.length; i++){
             if(petOptions[i].$t == "altered"){
               petNeuter = "Neutered/Spayed";
@@ -107,13 +109,29 @@ function animal (){
             if(petOptions[i].$t == "housetrained"){
               petHouseTrained = "House trained";
             };
+            if(petOptions[i].$t == "noCats"){
+              petCats = "Not good with cats";
+            };
+            if(petOptions[i].$t == "specialNeeds"){
+              petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
+            };
           };
-        };
-        console.log(petNeuter);
-        console.log(petShots);
-        console.log(petKids);
-        console.log(petHouseTrained);
-        
+        } else {
+          if(petOptions.$t == "altered"){
+            petNeuter = "Neutered/Spayed";
+          } else if (petOptions.$t == "hasShots"){
+            petShots = "Vaccinated";
+          }else if(petOptions.$t == "noKids"){
+            petKids = "Not good with children";
+          }else if(petOptions.$t == "housetrained"){
+            petHouseTrained = "House trained";
+          }else if(petOptions.$t == "noCats"){
+            petCats = "Not good with cats";
+          }else if(petOptions.$t == "specialNeeds"){
+            petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
+          };
+        }
+
         // Zip code of shelter
         shelterZip = petInfo.contact.zip.$t;
 
@@ -139,12 +157,33 @@ function animal (){
     })
   };
 
+  function reset(){
+    var petInfo= " ";
+    var petName = " ";
+    var petAge= " ";
+    var petGender= " ";
+    var petBreed= " ";
+    var petSize= " ";
+    var breedSite= " ";
+    var petDesc= " ";
+    var petNeuter = "Unknown";
+    var petShots = "Unknown";
+    var petKids = "Unknown";
+    var petHouseTrained = "Unknown";
+    var petCats = "Unknown";
+    var petSpecial = "Unknown";
+    var shelterEmail= " ";
+    var shelterPhone= " ";
+    var shelterZip= " ";
+    var dogPhotos =[];
+  }
+  
   animal();
+  reset();
+
 // On button click, run the following fuctions
 $(".button").on("click", function(){
   animal();
 })
-
-
 
 });
