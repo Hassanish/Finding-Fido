@@ -34,7 +34,9 @@ var mapLocation;
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
     buildMap ();
+
 }
 
 // var markerIcon = {
