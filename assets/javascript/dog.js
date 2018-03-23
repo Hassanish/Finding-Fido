@@ -137,7 +137,14 @@ function animal (){
         shelterZip = petInfo.contact.zip.$t;
 
         // Full address of shelter"
-        shelterFullAddress = petInfo.contact.address1.$t + ", " + petInfo.contact.city.$t
+        if(petInfo.contact.address1.$t != undefined){
+          shelterFullAddress = petInfo.contact.address1.$t + ", " + petInfo.contact.city.$t + ", "
+           + petInfo.contact.state.$t + ", " + shelterZip;
+        } else {
+          shelterFullAddress = shelterZip;
+        };
+
+        console.log(shelterFullAddress);
 
         // Email contact of shelter
         shelterEmail = petInfo.contact.email.$t; 
