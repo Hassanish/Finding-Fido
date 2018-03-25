@@ -204,7 +204,7 @@ function findPet (){
           petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
         };
       };
-    } else {
+    } else if(petOptions.$t != undefined) {
       if(petOptions.$t == "altered"){
         petNeuter = "Neutered/Spayed";
       } else if (petOptions.$t == "hasShots"){
@@ -253,34 +253,38 @@ function findPet (){
     console.log(dogPhotos);
 };
 
-// randomDog();
-// setTimeout(findShelterName, 5000);
-findPet();
-reset();
+
 
 // On button click, run the following fuctions
-$(".showDogs").on("click", function(){
+$("#showDogs").on("click", function(){
   for(i=0; i<10; i++){
     // Run the randomDog API call 
+    // ***This isnt running correctly -- just appends the same dog info over and over 
     randomDog();
     // Create new page elements
-    var newDiv = $("<div>");
-    var newImg = $("<img>");
-    var newP1 = $("<p");
-    var newP2 = $("<p");
+    var newDiv = $("<div class='card' style='width: 18rem;'>");
+    var newImg = $("<img class='card-img-top'>");
+    var newH5 = $("<h5 class='card-title'>");
+    var newP = $("<p class='card-text'>");
 
     // Change the attributes and text of created elements
-    newImg.atrr("src", dogPhotos[0]);
-    newP1.text(petName);
-    newP2.text(petBreed);
+    newImg.attr("src", dogPhotos[2]);
+    newH5.text(petName);
+    newP.text(petBreed);
 
     // Append to the newly created div
     newDiv.append(newImg);
-    newDiv.append(newP1);
-    newDiv.append(newP2);
+    newDiv.append(newH5);
+    newDiv.append(newP);
     // Append div to the page
-    $(".randomDog").newDiv;
+    $(".randomDog").append(newDiv);
+    // Fade out button
+    // $("#showDogs").fadeOut();
+    // Reset variables
+    reset();
   };
   });
+
+
 
 });

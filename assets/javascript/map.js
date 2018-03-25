@@ -34,6 +34,7 @@ var mapLocation;
       center: latlng,
       gestureHandling: 'greedy'
     }
+    // ***Review note -- make sure you are using jquery instead of document.getElementbyId
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
     buildMap ();
