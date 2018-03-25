@@ -33,6 +33,7 @@ var mapLocation;
       zoom: 12,
       center: latlng
     }
+    // ***Review note -- make sure you are using jquery instead of document.getElementbyId
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
     buildMap ();
