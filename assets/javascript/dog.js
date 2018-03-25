@@ -270,7 +270,7 @@ function findPet (){
   };
 
 
-  function addRandomDogs(){
+  function addDogs(){
     // Create new page elements
     var newDiv = $("<div class='card' style='width: 18rem'>");
     var newImg = $("<img class='card-img-top'>");
@@ -289,6 +289,8 @@ function findPet (){
     modalHeader.append(modalTitle);
     var modalBody=$("<div class='modal-body'>");
     modalContent.append(modalBody);
+    var modalContact=$("<div class='shelter-contact'>");
+    modalBody.append(modalContact);
     var modalFooter =$("<div class='modal-footer'>");
     modalContent.append(modalFooter);
     var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
@@ -341,7 +343,14 @@ function findPet (){
 
     // Changing content of the modal
     modalTitle.append(petName);
-    modalBody.append(petName);
+    modalBody.prepend(petDesc);
+    if(shelterName != " "){
+      modalContact.append("Contact "+shelterName+ " to learn more about "+petName+"!");
+    } else {
+      modalContact.append("Contact the shelter to learn more about "+petName+"!");
+    };
+    modalContact.append("<br> Phone: " +shelterPhone
+      +"<br> Email: "+shelterEmail+"<br> Address: "+shelterFullAddress);
 
     // Append to the newly created div
     newDiv.append(newImg);
@@ -363,14 +372,10 @@ $("#showDogs").on("click", function(){
     // $(document).ajaxComplete(function (){
     //   addRandomDogs();
     // });
-    setTimeout(addRandomDogs, 300);
+    setTimeout(addDogs, 300);
   // }; 
   reset();
 });
 
-// When the user clicks on the card holding the dog info...
-// $("body").on("click", ".card", function(){
-  
-// });
 
 });
