@@ -19,6 +19,8 @@ var shelterPhone;
 var shelterZip;
 var shelterID;
 var shelterName;
+var shelterCity;
+var shelterState;
 var shelterFullAddress;
 var dogPhotos =[];
 var apiKey = "359eebb45ac45f0d4449411094f651f8";
@@ -110,6 +112,10 @@ function findPet (){
     shelterEmail= " ";
     shelterPhone= " ";
     shelterZip= " ";
+    shelterID= " ";
+    shelterName= " ";
+    shelterCity= " ";
+    shelterState=" ";
     shelterFullAddress= " ";
     dogPhotos =[];
   };
@@ -223,26 +229,29 @@ function findPet (){
     // Zip code of shelter
     shelterZip = petInfo.contact.zip.$t;
 
-    // Full address of shelter"
-    if(petInfo.contact.address1.$t != undefined){
-      shelterFullAddress = petInfo.contact.address1.$t + ", " + petInfo.contact.city.$t + ", "
-        + petInfo.contact.state.$t + ", " + shelterZip;
-    } else {
-      shelterFullAddress = shelterZip;
-    };
-
-    console.log(shelterFullAddress);
-    buildMap(shelterFullAddress);
-
     // Email contact of shelter
     shelterEmail = petInfo.contact.email.$t; 
 
     // Phone number of the shelter
     shelterPhone = petInfo.contact.phone.$t;
 
+    // City location of the shelter
+    shelterCity = petInfo.contact.city.$t;
+
+    // State location of the shelter
+    shelterState = petInfo.contact.state.$t;
+    
+    // Full address of shelter"
+    if(petInfo.contact.address1.$t != undefined){
+      shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
+        + shelterState + ", " + shelterZip;
+    } else {
+      shelterFullAddress = shelterZip;
+    };
+
+    buildMap(shelterFullAddress);
     // ID of the shelter
     shelterID = petInfo.shelterId.$t;
-    console.log(shelterID);
 
     // Loading photos of the dog into an array
     dogPhotos = [];
@@ -251,26 +260,47 @@ function findPet (){
       dogPhotos.push(currentPhoto.$t);
     };
     console.log(dogPhotos);
-};
+  };
 
-
-
-// On button click, run the following fuctions
-$("#showDogs").on("click", function(){
-  for(i=0; i<10; i++){
-    // Run the randomDog API call 
-    // ***This isnt running correctly -- just appends the same dog info over and over 
-    randomDog();
+  function addRandomDogs(){
     // Create new page elements
     var newDiv = $("<div class='card' style='width: 18rem;'>");
     var newImg = $("<img class='card-img-top'>");
     var newH5 = $("<h5 class='card-title'>");
     var newP = $("<p class='card-text'>");
-
+    var thisPetInfo = {
+      name: petName,
+      age: petAge,
+      gender: petGender,
+      breed: petBreed,
+      size: petSize,
+      site: breedSite,
+      descr: petDesc,
+      neuter: petNeuter,
+      shots: petShots,
+      kids: petKids, 
+      houseTrained: petHouseTrained,
+      cats: petCats,
+      special: petSpecial,
+      email: shelterEmail,
+      phone: shelterPhone,
+      zip: shelterZip,
+      id: shelterID,
+      shelterName: shelterName,
+      city: shelterCity,
+      state: shelterState,
+      address: shelterFullAddress,
+      photos: dogPhotos
+    };
+    console.log(thisPetInfo);
     // Change the attributes and text of created elements
     newImg.attr("src", dogPhotos[2]);
     newH5.text(petName);
-    newP.text(petBreed);
+    if(shelterCity != " "){
+    newP.html(petBreed+"<br>"+ shelterCity+", "+shelterState);
+    } else {
+      newP.text(petBreed);
+    };
 
     // Append to the newly created div
     newDiv.append(newImg);
@@ -278,11 +308,20 @@ $("#showDogs").on("click", function(){
     newDiv.append(newP);
     // Append div to the page
     $(".randomDog").append(newDiv);
-    // Fade out button
-    // $("#showDogs").fadeOut();
-    // Reset variables
-    reset();
   };
+
+
+// On button click, run the following fuctions
+$("#showDogs").on("click", function(){
+  // for(i=0;i<10;i++){
+    randomDog();
+    findShelterName();
+    // $(document).ajaxComplete(function (){
+    //   addRandomDogs();
+    // });
+    setTimeout(addRandomDogs, 300);
+  // }; 
+  reset();
   });
 
 
