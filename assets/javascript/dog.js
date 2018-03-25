@@ -3,6 +3,7 @@ $(document).ready(function(){
 var petInfo;
 var petName;
 var petAge;
+var petId;
 var petGender;
 var petBreed;
 var petSize;
@@ -25,7 +26,7 @@ var shelterFullAddress;
 var dogPhotos =[];
 var apiKey = "359eebb45ac45f0d4449411094f651f8";
 
-// Creating the animal function to pull all relevant information from the Petfinder API. This is for RANDOM dogs.
+// Pulls a random dog from the API
 function randomDog (){
     var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
@@ -44,7 +45,7 @@ function randomDog (){
     })
   };
 
-// Find pets based on criteria
+// Pulls pet info based on criteria 
 function findPet (){
   var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
@@ -70,7 +71,7 @@ function findPet (){
     })
   };
 
-  // Find shelter name based on ID
+  // Find shelter name based on ID using API 
   function findShelterName (){
     var queryURL = "http://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
   
@@ -94,6 +95,7 @@ function findPet (){
     };
   
   // Reset function
+ 
   function reset(){
     petInfo= " ";
     petName = " ";
@@ -127,12 +129,17 @@ function findPet (){
   function setDogInfo(data){
     // Creating a variable to shorten path to get to dog info
     petInfo = data.petfinder.pet
-  
+    console.log(petInfo);
+
     // Name of the pet
     petName = petInfo.name.$t;
 
     // Age of the pet 
     petAge = petInfo.age.$t;
+
+    // ID of the pet 
+    petId = petInfo.id.$t;
+    console.log(petId);
 
     // Gender of the pet
     petGender = petInfo.sex.$t;
@@ -262,12 +269,42 @@ function findPet (){
     console.log(dogPhotos);
   };
 
+
   function addRandomDogs(){
     // Create new page elements
-    var newDiv = $("<div class='card' style='width: 18rem;'>");
+    var newDiv = $("<div class='card' style='width: 18rem'>");
     var newImg = $("<img class='card-img-top'>");
     var newH5 = $("<h5 class='card-title'>");
     var newP = $("<p class='card-text'>");
+ 
+    // Creating the modal 
+    var newModal = $("<div class='modal' role='dialog' aria-hidden='true'>");
+    var modalDialog = $("<div class='modal-dialog' role='document'>");
+    newModal.append(modalDialog);
+    var modalContent=$("<div class='modal-content'>");
+    modalDialog.append(modalContent);
+    var modalHeader=$("<div class='modal-header'>");
+    modalContent.append(modalHeader);
+    var modalTitle=$("<h5 class='modal-title'>");
+    modalHeader.append(modalTitle);
+    var modalBody=$("<div class='modal-body'>");
+    modalContent.append(modalBody);
+    var modalFooter =$("<div class='modal-footer'>");
+    modalContent.append(modalFooter);
+    var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+    modalFooter.append(closeButton);
+    var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
+    modalFooter.append(favoriteButton);
+   
+    // Giving the modal an id of the pet 
+    newModal.attr("id", petId);
+    newModal.attr("aria-labelledby", petId);
+
+    // Linking the button to the modal for the pet with a matching Id
+    var seeMoreBtn = $("<button type='button' class='btn btn-primary' data-toggle='modal'>See More</button>");
+    seeMoreBtn.attr("data-target", "#"+petId);
+
+   
     var thisPetInfo = {
       name: petName,
       age: petAge,
@@ -302,16 +339,23 @@ function findPet (){
       newP.text(petBreed);
     };
 
+    // Changing content of the modal
+    modalTitle.append(petName);
+    modalBody.append(petName);
+
     // Append to the newly created div
     newDiv.append(newImg);
     newDiv.append(newH5);
     newDiv.append(newP);
+    newDiv.append(seeMoreBtn);
+    newDiv.append(newModal);
+
     // Append div to the page
-    $(".randomDog").append(newDiv);
+    $(".randomDog").prepend(newDiv);
   };
 
 
-// On button click, run the following fuctions
+// When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
   // for(i=0;i<10;i++){
     randomDog();
@@ -322,8 +366,11 @@ $("#showDogs").on("click", function(){
     setTimeout(addRandomDogs, 300);
   // }; 
   reset();
-  });
+});
 
-
+// When the user clicks on the card holding the dog info...
+// $("body").on("click", ".card", function(){
+  
+// });
 
 });
