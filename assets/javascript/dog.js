@@ -1,4 +1,18 @@
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBYi9sH72Uv9hFD--jiwoxQ5MEun8Vsw9k",
+    authDomain: "finding-fido.firebaseapp.com",
+    databaseURL: "https://finding-fido.firebaseio.com",
+    projectId: "finding-fido",
+    storageBucket: "",
+    messagingSenderId: "89497676577"
+  };
+  firebase.initializeApp(config);
+
 $(document).ready(function(){
+
+var database = firebase.database();
 
 var petInfo;
 var petName;
@@ -25,6 +39,7 @@ var shelterState;
 var shelterFullAddress;
 var dogPhotos =[];
 var apiKey = "359eebb45ac45f0d4449411094f651f8";
+var thisPetInfo = {};
 
 // Pulls a random dog from the API
 function randomDog (){
@@ -239,15 +254,27 @@ function findPet (){
 
     // Email contact of shelter
     shelterEmail = petInfo.contact.email.$t; 
+    if(shelterEmail == undefined){
+      shelterEmail = "Not Available";
+    };
 
     // Phone number of the shelter
     shelterPhone = petInfo.contact.phone.$t;
+    if(shelterPhone == undefined){
+      shelterPhone = "Not Available";
+    };
 
     // City location of the shelter
     shelterCity = petInfo.contact.city.$t;
+    if(shelterCity == undefined){
+      shelterCity = " ";
+    };
 
     // State location of the shelter
     shelterState = petInfo.contact.state.$t;
+    if(shelterState == undefined){
+      shelterState = "Not Available";
+    };
     
     // Full address of shelter"
     if(petInfo.contact.address1.$t != undefined){
@@ -290,6 +317,10 @@ function findPet (){
     modalHeader.append(modalTitle);
     var modalBody=$("<div class='modal-body'>");
     modalContent.append(modalBody);
+    var modalAttributes=$("<div class='modal-dog-attr'>");
+    modalBody.append(modalAttributes);
+    var modalDesc=$("<div class='modal-dog-desc'>");
+    modalBody.append(modalDesc);
     var modalContact=$("<div class='shelter-contact'>");
     modalBody.append(modalContact);
     var modalFooter =$("<div class='modal-footer'>");
@@ -299,7 +330,7 @@ function findPet (){
     var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
    
-    // Giving the modal an id of the pet 
+    // Giving the modal and div an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
 
@@ -308,8 +339,9 @@ function findPet (){
     seeMoreBtn.attr("data-target", "#"+petId);
 
    
-    var thisPetInfo = {
+    thisPetInfo = {
       name: petName,
+      id: petId,
       age: petAge,
       gender: petGender,
       breed: petBreed,
@@ -330,9 +362,11 @@ function findPet (){
       city: shelterCity,
       state: shelterState,
       address: shelterFullAddress,
-      photos: dogPhotos
-    };
-    console.log(thisPetInfo);
+      photos:dogPhotos,
+      isFavorite : false,
+      };
+    database.ref().push(thisPetInfo);
+    
     // Change the attributes and text of created elements
     newImg.attr("src", dogPhotos[2]);
     newH5.text(petName);
@@ -343,8 +377,34 @@ function findPet (){
     };
 
     // Changing content of the modal
+    // Title is the pet name 
+ 
     modalTitle.append(petName);
-    modalBody.prepend(petDesc);
+
+    modalAttributes.append(petBreed + '<br>');
+    modalAttributes.append("<a href='"+breedSite+"' target='_blank' > Learn more about "+petBreed+"s! </a>"+"<br>");
+
+    modalAttributes.append(petAge + " "+ petSize+" "+petGender+"<br>");
+    if(petHouseTrained != "Unknown"){
+      modalAttributes.append(petHouseTrained + "<br>");
+    };
+    if(petCats != "Unknown"){
+      modalAttributes.append(petCats + "<br>");
+    };
+    if(petNeuter != "Unknown"){
+      modalAttributes.append(petNeuter + "<br>");
+    };
+    if(petSpecial != "Unknown"){
+      modalAttributes.append(petSpecial + "<br>");
+    };
+    
+    modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
+    
+
+    var modalImg = $("<img>");
+    modalImg.attr("src", dogPhotos[3]);
+    modalBody.prepend(modalImg);
+    
     if(shelterName != " "){
       modalContact.append("Contact "+shelterName+ " to learn more about "+petName+"!");
     } else {
@@ -352,6 +412,7 @@ function findPet (){
     };
     modalContact.append("<br> Phone: " +shelterPhone
       +"<br> Email: "+shelterEmail+"<br> Address/Zip: "+shelterFullAddress);
+      modalBody
 
     // Append to the newly created div
     newDiv.append(newImg);
@@ -367,6 +428,7 @@ function findPet (){
 
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
+  $("#showDogs").fadeOut();
   for(i=0;i<10;i++){
     randomDog();
     findShelterName();
@@ -375,5 +437,15 @@ $("#showDogs").on("click", function(){
   reset();
 });
 
+// When user clickes "Add to Favorites," run the following
+$("body").on("click", "#favorite", function(){
+  event.preventDefault();
+  // change the property of the isFavorite in database
+  // show all database favorites on page 
+
+  
+});
+
+// When the user clicks "search," run
 
 });
