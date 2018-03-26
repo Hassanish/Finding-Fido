@@ -24,6 +24,7 @@ var mapLocation;
 //Reference at:  https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingRequests
 var geocoder;
 var map;
+var petId = 40779164;
 var address = "1890 Buford Ave, St Paul, MN 55108";
 function initialize() {
   geocoder = new google.maps.Geocoder();
@@ -33,7 +34,7 @@ function initialize() {
     center: latlng,
     gestureHandling: 'greedy'
   }
-  map = new google.maps.Map(document.getElementById(petID + "map"), mapOptions);
+  map = new google.maps.Map(document.getElementById(petId + "map"), mapOptions);
 
   buildMap();
 }
