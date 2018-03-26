@@ -11,25 +11,27 @@
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
     <!-- Moment.js Reference -->
     <script src="http://momentjs.com/downloads/moment.js"></script>
-    <style></style>
-    <script src="http://momentjs.com/downloads/moment.js"></script> 
 
 </head>
 
 <body>
-    <div class="jumbotron" style="background-color:azure">
-        <header>
-            <h1 class="text-center">Finding Fido</h1>
-        </header>
-        <button id="showDogs">Show me adoptable dogs!</button>
-        
-        
-            <div class = "col-md-1"></div>
-            <div class = "col-md-10">
-                <div class="searchBox">
+    <header>
+        <h1 class="text-center my-3" onclick="location.reload();">Finding Fido</h1>
+    </header>
+    <div id="homedog" class="h-75">
+        <div class="container h-100">
+            <button class="btn-lg btn-primary" id="showDogs">Show me adoptable dogs!</button>
 
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+            <div class="searchBox">
+            </div>
+            <div class="randomDog card-columns">
                 </div>
-                <div class = "randomDog"></div>
             </div>
             <div class = "col-md-1"></div>
         </div>
@@ -56,4 +58,5 @@
  
 
 </body>
+
 </html>
