@@ -1,5 +1,4 @@
-
-  // Initialize Firebase
+// Initialize Firebase
   var config = {
     apiKey: "AIzaSyBYi9sH72Uv9hFD--jiwoxQ5MEun8Vsw9k",
     authDomain: "finding-fido.firebaseapp.com",
