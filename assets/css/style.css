@@ -31,9 +31,51 @@ header h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 80%;
+    margin: 30px auto;
+    overflow: hidden;
 }
-button {
+button, bg-dark {
   background-color: #751113 !important;
   border-color: #751113 !important;
 }
+
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 4;
+    column-gap: 1rem;
+
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 5;
+    column-gap: 1.25rem;
+
+  }
+
+
+   .galleryItem {
+    color: #797478;
+    font: 10px/1.5 Verdana, Helvetica, sans-serif;
+    float: left;
+   }
+    
+   .galleryItem h3 {
+    text-transform: uppercase;
+   }
+    
+   .galleryItem img {
+    max-width: 100%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+   }
+
+   /* .galleryItem {
+    color: #797478;
+    font: 10px/1.5 Verdana, Helvetica, sans-serif;
+    float: left; 
+    
+    width: 16%;
+    margin:  2% 2% 50px 2%; 
+   } */
 

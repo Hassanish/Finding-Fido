@@ -373,16 +373,98 @@ function addDogs(){
     newP.text(petBreed);
   };
 
-  // Changing content of the modal
-  // Title is the pet name 
-  modalTitle.append(petName);
-  // Attributes section contains dog breed, related breed site, and other generic attributes
-  modalAttributes.append(petBreed + '<br>');
-  modalAttributes.append("<a href='"+breedSite+"' target='_blank' > Learn more about "+petBreed+"s! </a>"+"<br>");
-  // Only printing if information is known 
-  modalAttributes.append(petAge + " "+ petSize+" "+petGender+"<br>");
-  if(petHouseTrained != "Unknown"){
-    modalAttributes.append(petHouseTrained + "<br>");
+
+  function addDogs() {
+    // Create new page elements
+    var newDiv = $("<div class='card text-white bg-dark' style='width: 18rem'>");
+    var newImg = $("<img class='card-img-top'>");
+    var newH5 = $("<h5 class='card-title px-2 mb-0 mt-2'>");
+    var newP = $("<p class='card-text px-2 my-1'>");
+
+    // Creating the modal 
+    var newModal = $("<div class='modal' role='dialog' aria-hidden='true'>");
+    var modalDialog = $("<div class='modal-dialog' role='document'>");
+    newModal.append(modalDialog);
+    var modalContent = $("<div class='modal-content'>");
+    modalDialog.append(modalContent);
+    var modalHeader = $("<div class='modal-header'>");
+    modalContent.append(modalHeader);
+    var modalTitle = $("<h5 class='modal-title'>");
+    modalHeader.append(modalTitle);
+    var modalBody = $("<div class='modal-body'>");
+    modalContent.append(modalBody);
+    var modalContact = $("<div class='shelter-contact'>");
+    modalBody.append(modalContact);
+    var modalFooter = $("<div class='modal-footer'>");
+    modalContent.append(modalFooter);
+    var closeButton = $("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+    modalFooter.append(closeButton);
+    var favoriteButton = $("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
+    modalFooter.append(favoriteButton);
+
+    // Giving the modal an id of the pet 
+    newModal.attr("id", petId);
+    newModal.attr("aria-labelledby", petId);
+
+    // Linking the button to the modal for the pet with a matching Id
+    var seeMoreBtn = $("<button type='button' class='btn btn-primary' data-toggle='modal'>See More</button>");
+    seeMoreBtn.attr("data-target", "#" + petId);
+
+
+    var thisPetInfo = {
+      name: petName,
+      age: petAge,
+      gender: petGender,
+      breed: petBreed,
+      size: petSize,
+      site: breedSite,
+      descr: petDesc,
+      neuter: petNeuter,
+      shots: petShots,
+      kids: petKids,
+      houseTrained: petHouseTrained,
+      cats: petCats,
+      special: petSpecial,
+      email: shelterEmail,
+      phone: shelterPhone,
+      zip: shelterZip,
+      id: shelterID,
+      shelterName: shelterName,
+      city: shelterCity,
+      state: shelterState,
+      address: shelterFullAddress,
+      photos: dogPhotos
+    };
+    console.log(thisPetInfo);
+    // Change the attributes and text of created elements
+    newImg.attr("src", dogPhotos[2]);
+    newH5.text(petName);
+    if (shelterCity != " ") {
+      newP.html(petBreed + "<br>" + shelterCity + ", " + shelterState);
+    } else {
+      newP.text(petBreed);
+    };
+
+    // Changing content of the modal
+    modalTitle.append(petName);
+    modalBody.prepend(petDesc);
+    if (shelterName != " ") {
+      modalContact.append("Contact " + shelterName + " to learn more about " + petName + "!");
+    } else {
+      modalContact.append("Contact the shelter to learn more about " + petName + "!");
+    };
+    modalContact.append("<br> Phone: " + shelterPhone
+      + "<br> Email: " + shelterEmail + "<br> Address/Zip: " + shelterFullAddress);
+
+    // Append to the newly created div
+    newDiv.append(newImg);
+    newDiv.append(newH5);
+    newDiv.append(newP);
+    newDiv.append(seeMoreBtn);
+    newDiv.append(newModal);
+
+    // Append div to the page
+    $(".randomDog").prepend(newDiv);
   };
   if(petCats != "Unknown"){
     modalAttributes.append(petCats + "<br>");
