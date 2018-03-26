@@ -37,6 +37,7 @@ button, bg-dark {
   border-color: #751113 !important;
 }
 
+<<<<<<< HEAD
 .card-columns {
   @include media-breakpoint-only(lg) {
     column-count: 4;
@@ -49,3 +50,5 @@ button, bg-dark {
 
   }
 }
+=======
+>>>>>>> master
