@@ -70,15 +70,18 @@ function findPet (){
       url : queryURL+'&callback=?' ,
       dataType: 'json',
       data : {
-        // Set these equal to the input boxes*****
-        size: "L",
-        sex: "M",
-        location: "55415",
-        age : "Baby",
+        // Set these equal to the input boxes
+        size: searchSize,
+        sex: searchGender,
+        location: searchZip,
+        age : searchAge,
       },
       success : function(data) { 
         setDogInfo(data);
         // Use input boxes to hide certain results based on input******
+        if(searchHouseTrained == true){
+          
+        }
       },
       error : function (request, error)
       {
@@ -97,16 +100,13 @@ function findPet (){
         url : queryURL+'&callback=?' ,
         dataType: 'json',
         success : function(data) { 
+          console.log(data);
           if(data.petfinder.shelter.name.$t != undefined){
             shelterName = data.petfinder.shelter.name.$t;
           } else {
             shelterName = "Unknown";
           };
         },
-        error : function (request, error)
-        {
-          alert("Request: "+JSON.stringify(request));
-        }
       })
     };
   
@@ -155,7 +155,6 @@ function findPet (){
 
     // ID of the pet 
     petId = petInfo.id.$t;
-    console.log(petId);
 
     // Gender of the pet
     petGender = petInfo.sex.$t;
@@ -170,10 +169,8 @@ function findPet (){
     if(petInfo.breeds.breed[0] != undefined){
       petBreed = petInfo.breeds.breed[0];
       petBreed = petBreed.$t;
-      console.log(petBreed);
     } else {
       petBreed = petInfo.breeds.breed.$t;
-      console.log(petBreed);
     };
     // Changing pit bull terrier to AKC name
     if(petBreed =="Pit Bull Terrier"){
@@ -294,11 +291,12 @@ function findPet (){
       var currentPhoto = petInfo.media.photos.photo[i];
       dogPhotos.push(currentPhoto.$t);
     };
-    console.log(dogPhotos);
   };
 
 
   function addDogs(){
+    // Run API to find the shelter name
+    findShelterName();
     // Create new page elements
     var newDiv = $("<div class='card' style='width: 18rem'>");
     var newImg = $("<img class='card-img-top'>");
@@ -378,12 +376,11 @@ function findPet (){
 
     // Changing content of the modal
     // Title is the pet name 
- 
     modalTitle.append(petName);
-
+    // Attributes section contains dog breed, related breed site, and other generic attributes
     modalAttributes.append(petBreed + '<br>');
     modalAttributes.append("<a href='"+breedSite+"' target='_blank' > Learn more about "+petBreed+"s! </a>"+"<br>");
-
+    // Only printing if information is known 
     modalAttributes.append(petAge + " "+ petSize+" "+petGender+"<br>");
     if(petHouseTrained != "Unknown"){
       modalAttributes.append(petHouseTrained + "<br>");
@@ -425,14 +422,11 @@ function findPet (){
     $(".randomDog").prepend(newDiv);
   };
 
-
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
   $("#showDogs").fadeOut();
   for(i=0;i<10;i++){
     randomDog();
-    findShelterName();
-
   }; 
   reset();
 });
@@ -441,11 +435,57 @@ $("#showDogs").on("click", function(){
 $("body").on("click", "#favorite", function(){
   event.preventDefault();
   // change the property of the isFavorite in database
-  // show all database favorites on page 
+  // show all database isfavorites == true on page 
+
 
   
 });
 
 // When the user clicks "search," run
+$("body").on("click", "#search", function(){
+  event.preventDefault();
+
+  // Capture the values 
+  var searchZip = $("#searchZip").val().trim();
+  var searchSize = $("#searchSize").val().trim();
+  var searchGender = $("#searchGender").val().trim();
+  var searchAge = $("#searchAge").val().trim();
+  var searchNeutered = $("#searchNeutered").val().trim();
+  var searchVaccinated = $("#searchNeutered").val().trim();
+  var searchHouseTrained = $("#searchNeutered").val().trim();
+  var searchNoKids = $("#searchNoKids").val().trim();
+  var searchNoCats = $("#searchNoCats").val().trim();
+  var searchSpecialNeeds = $("#searchSpecialNeeds").val().trim();
+
+  // Console log to figure out values 
+  console.log(searchZip);
+  console.log(searchSize);
+  console.log(searchGender);
+  console.log(searchAge);
+  console.log(searchNeutered);
+  console.log(searchVaccinated);
+  console.log(searchHouseTrained);
+  console.log(searchNoKids);
+  console.log(searchNoCats);
+  console.log(searchSpecialNeeds);
+
+
+  // Call the API & Print results
+  // findPet();
+
+  // Reset the search boxes
+  $("#searchZip").val("");
+  $("#searchSize").val("");
+  $("#searchGender").val("");
+  $("#searchAge").val("");
+  $("#searchNeutered").val("");
+  $("#searchNeutered").val("");
+  $("#searchNeutered").val("");
+  $("#searchNoKids").val("");
+  $("#searchNoCats").val("");
+  $("#searchSpecialNeeds").val("");
+
+
+});
 
 });
