@@ -158,33 +158,40 @@ function buildMap (address){
     // Gender of the pet
     petGender = petInfo.sex.$t;
     // Converting letter into full word
-    if(petGender == "M"){
+    if (petGender == "M") 
+    {
       petGender = "Male"
-    } else {
+    } 
+    else 
+    {
       petGender = "Female"
     };
   
     // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
-    if(petInfo.breeds.breed[0] != undefined){
+    if (petInfo.breeds.breed[0] != undefined) 
+    {
       petBreed = petInfo.breeds.breed[0];
       petBreed = petBreed.$t;
     } else {
       petBreed = petInfo.breeds.breed.$t;
     };
     // Changing pit bull terrier to AKC name
-    if(petBreed =="Pit Bull Terrier"){
+    if (petBreed == "Pit Bull Terrier") 
+    {
       petBreed = "American Staffordshire Terrier"
     };
     //Splitting the bread in separate strings
     var breedSplit = petBreed.split(" ");
     breedSite = "http://www.akc.org/dog-breeds/"
     //Add each string to the URL to link to the AKC site with the correct page
-    for(i=0; i<breedSplit.length; i++){
+    for (i = 0; i < breedSplit.length; i++) 
+    {
       var breed = breedSplit[i];
-      if(i<breedSplit.length -1){
-        breedSite+=breed+"-";
-      }else{
-        breedSite+=breed;
+      if (i < breedSplit.length - 1) 
+      {
+        breedSite += breed + "-";
+      } else {
+        breedSite += breed;
       };
     };
     console.log(breedSite);
@@ -193,11 +200,11 @@ function buildMap (address){
     petSize = petInfo.size.$t;
 
     // Converting size into full word
-    if(petSize == "L"){
+    if (petSize == "L") {
       petSize = "Large";
-    } else if (petSize == "M"){
+    } else if (petSize == "M") {
       petSize = "Medium";
-    } else if (petSize == "S"){
+    } else if (petSize == "S") {
       petSize = "Small";
     } else {
       petSize = "Extra Large"
@@ -215,39 +222,39 @@ function buildMap (address){
 
     // Background info on dog (neutered, vaccinated, good with kids, housetrained)
     var petOptions = petInfo.options.option;
-    if(Array.isArray(petOptions)){
-      for(i=0; i<petOptions.length; i++){
-        if(petOptions[i].$t == "altered"){
+    if (Array.isArray(petOptions)) {
+      for (i = 0; i < petOptions.length; i++) {
+        if (petOptions[i].$t == "altered") {
           petNeuter = "Neutered/Spayed";
         };
-        if(petOptions[i].$t == "hasShots"){
+        if (petOptions[i].$t == "hasShots") {
           petShots = "Vaccinated";
         };
-        if(petOptions[i].$t == "noKids"){
+        if (petOptions[i].$t == "noKids") {
           petKids = "Not good with children";
         };
-        if(petOptions[i].$t == "housetrained"){
+        if (petOptions[i].$t == "housetrained") {
           petHouseTrained = "House trained";
         };
-        if(petOptions[i].$t == "noCats"){
+        if (petOptions[i].$t == "noCats") {
           petCats = "Not good with cats";
         };
-        if(petOptions[i].$t == "specialNeeds"){
+        if (petOptions[i].$t == "specialNeeds") {
           petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
         };
       };
-    } else if(petOptions.$t != undefined) {
-      if(petOptions.$t == "altered"){
+    } else if (petOptions.$t != undefined) {
+      if (petOptions.$t == "altered") {
         petNeuter = "Neutered/Spayed";
-      } else if (petOptions.$t == "hasShots"){
+      } else if (petOptions.$t == "hasShots") {
         petShots = "Vaccinated";
-      }else if(petOptions.$t == "noKids"){
+      } else if (petOptions.$t == "noKids") {
         petKids = "Not good with children";
-      }else if(petOptions.$t == "housetrained"){
+      } else if (petOptions.$t == "housetrained") {
         petHouseTrained = "House trained";
-      }else if(petOptions.$t == "noCats"){
+      } else if (petOptions.$t == "noCats") {
         petCats = "Not good with cats";
-      }else if(petOptions.$t == "specialNeeds"){
+      } else if (petOptions.$t == "specialNeeds") {
         petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
       };
     }
@@ -280,15 +287,14 @@ function buildMap (address){
     };
     
     // Full address of shelter"
-    if(petInfo.contact.address1.$t != undefined){
+    if (petInfo.contact.address1.$t != undefined) {
       shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
         + shelterState + ", " + shelterZip;
     } else {
       shelterFullAddress = shelterZip;
     };
 
-    buildMap(shelterFullAddress);
-    
+    // buildMap(shelterFullAddress);
     // ID of the shelter
     shelterID = petInfo.shelterId.$t;
 };
@@ -378,8 +384,9 @@ function addDogs(){
     // Create new page elements
     var newDiv = $("<div class='card text-white bg-dark' style='width: 18rem'>");
     var newImg = $("<img class='card-img-top'>");
-    var newH5 = $("<h5 class='card-title px-2 mb-0 mt-2'>");
-    var newP = $("<p class='card-text px-2 my-1'>");
+    var newH5 = $("<h5 class='card-title'>");
+    var newP = $("<p class='card-text'>");
+
 
     // Creating the modal 
     var newModal = $("<div class='modal' role='dialog' aria-hidden='true'>");
@@ -401,13 +408,22 @@ function addDogs(){
     modalFooter.append(closeButton);
     var favoriteButton = $("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
+    var modalMap = $("<div id='map'>");
+    modalContact.append(modalMap);
+    // $('modal').on('shown', function(){
+    //   initialize();
+    //   });
+
+    console.log(shelterFullAddress);
+    console.log("buildmap() was called")
 
     // Giving the modal an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
+    modalMap.attr("id", petId + "map");
 
     // Linking the button to the modal for the pet with a matching Id
-    var seeMoreBtn = $("<button type='button' class='btn btn-primary' data-toggle='modal'>See More</button>");
+    var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMore' data-toggle='modal'>See More</button>");
     seeMoreBtn.attr("data-target", "#" + petId);
 
 
@@ -435,7 +451,7 @@ function addDogs(){
       address: shelterFullAddress,
       photos: dogPhotos
     };
-    console.log(thisPetInfo);
+    // console.log(thisPetInfo);
     // Change the attributes and text of created elements
     newImg.attr("src", dogPhotos[2]);
     newH5.text(petName);
@@ -465,6 +481,8 @@ function addDogs(){
 
     // Append div to the page
     $(".randomDog").prepend(newDiv);
+   initialize()
+ 
   };
   if(petCats != "Unknown"){
     modalAttributes.append(petCats + "<br>");
