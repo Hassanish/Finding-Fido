@@ -140,37 +140,6 @@ function reset(){
 // Dummy function to communicate with map.js 
 function buildMap (address){
 };
-
-function setDogInfo(data){
-  // Creating a variable to shorten path to get to dog info
-  petInfo = data.petfinder.pet
-  console.log(petInfo);
-
-  // Name of the pet
-  petName = petInfo.name.$t;
-
-  // Age of the pet 
-  petAge = petInfo.age.$t;
-
-  // ID of the pet 
-  petId = petInfo.id.$t;
-
-  // Gender of the pet
-  petGender = petInfo.sex.$t;
-  // Converting letter into full word
-  if(petGender == "M"){
-    petGender = "Male"
-  } else {
-    petGender = "Female"
-  };
-
-  // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
-  if(petInfo.breeds.breed[0] != undefined){
-    petBreed = petInfo.breeds.breed[0];
-    petBreed = petBreed.$t;
-  } else {
-    petBreed = petInfo.breeds.breed.$t;
-  };
   
   function setDogInfo(data){
     // Creating a variable to shorten path to get to dog info
@@ -233,95 +202,95 @@ function setDogInfo(data){
     } else {
       petSize = "Extra Large"
     };
-  // Descr from shelter
-  petDesc = petInfo.description.$t;
 
-  // Loading photos of the dog into an array
-  dogPhotos = [];
-  for(i=0; i<petInfo.media.photos.photo.length; i++){
-    var currentPhoto = petInfo.media.photos.photo[i];
-    dogPhotos.push(currentPhoto.$t);
-  };
+    // Descr from shelter
+    petDesc = petInfo.description.$t;
 
-  // Background info on dog (neutered, vaccinated, good with kids, housetrained)
-  var petOptions = petInfo.options.option;
-  if(Array.isArray(petOptions)){
-    for(i=0; i<petOptions.length; i++){
-      if(petOptions[i].$t == "altered"){
+    // Loading photos of the dog into an array
+    dogPhotos = [];
+    for(i=0; i<petInfo.media.photos.photo.length; i++){
+      var currentPhoto = petInfo.media.photos.photo[i];
+      dogPhotos.push(currentPhoto.$t);
+    };
+
+    // Background info on dog (neutered, vaccinated, good with kids, housetrained)
+    var petOptions = petInfo.options.option;
+    if(Array.isArray(petOptions)){
+      for(i=0; i<petOptions.length; i++){
+        if(petOptions[i].$t == "altered"){
+          petNeuter = "Neutered/Spayed";
+        };
+        if(petOptions[i].$t == "hasShots"){
+          petShots = "Vaccinated";
+        };
+        if(petOptions[i].$t == "noKids"){
+          petKids = "Not good with children";
+        };
+        if(petOptions[i].$t == "housetrained"){
+          petHouseTrained = "House trained";
+        };
+        if(petOptions[i].$t == "noCats"){
+          petCats = "Not good with cats";
+        };
+        if(petOptions[i].$t == "specialNeeds"){
+          petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
+        };
+      };
+    } else if(petOptions.$t != undefined) {
+      if(petOptions.$t == "altered"){
         petNeuter = "Neutered/Spayed";
-      };
-      if(petOptions[i].$t == "hasShots"){
+      } else if (petOptions.$t == "hasShots"){
         petShots = "Vaccinated";
-      };
-      if(petOptions[i].$t == "noKids"){
+      }else if(petOptions.$t == "noKids"){
         petKids = "Not good with children";
-      };
-      if(petOptions[i].$t == "housetrained"){
+      }else if(petOptions.$t == "housetrained"){
         petHouseTrained = "House trained";
-      };
-      if(petOptions[i].$t == "noCats"){
+      }else if(petOptions.$t == "noCats"){
         petCats = "Not good with cats";
-      };
-      if(petOptions[i].$t == "specialNeeds"){
+      }else if(petOptions.$t == "specialNeeds"){
         petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
       };
+    }
+
+    // Zip code of shelter
+    shelterZip = petInfo.contact.zip.$t;
+
+    // Email contact of shelter
+    shelterEmail = petInfo.contact.email.$t; 
+    if(shelterEmail == undefined){
+      shelterEmail = "Not Available";
     };
-  } else if(petOptions.$t != undefined) {
-    if(petOptions.$t == "altered"){
-      petNeuter = "Neutered/Spayed";
-    } else if (petOptions.$t == "hasShots"){
-      petShots = "Vaccinated";
-    }else if(petOptions.$t == "noKids"){
-      petKids = "Not good with children";
-    }else if(petOptions.$t == "housetrained"){
-      petHouseTrained = "House trained";
-    }else if(petOptions.$t == "noCats"){
-      petCats = "Not good with cats";
-    }else if(petOptions.$t == "specialNeeds"){
-      petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
+
+    // Phone number of the shelter
+    shelterPhone = petInfo.contact.phone.$t;
+    if(shelterPhone == undefined){
+      shelterPhone = "Not Available";
     };
-  }
 
-  // Zip code of shelter
-  shelterZip = petInfo.contact.zip.$t;
+    // City location of the shelter
+    shelterCity = petInfo.contact.city.$t;
+    if(shelterCity == undefined){
+      shelterCity = " ";
+    };
 
-  // Email contact of shelter
-  shelterEmail = petInfo.contact.email.$t; 
-  if(shelterEmail == undefined){
-    shelterEmail = "Not Available";
-  };
+    // State location of the shelter
+    shelterState = petInfo.contact.state.$t;
+    if(shelterState == undefined){
+      shelterState = "Not Available";
+    };
+    
+    // Full address of shelter"
+    if(petInfo.contact.address1.$t != undefined){
+      shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
+        + shelterState + ", " + shelterZip;
+    } else {
+      shelterFullAddress = shelterZip;
+    };
 
-  // Phone number of the shelter
-  shelterPhone = petInfo.contact.phone.$t;
-  if(shelterPhone == undefined){
-    shelterPhone = "Not Available";
-  };
-
-
-  // City location of the shelter
-  shelterCity = petInfo.contact.city.$t;
-  if(shelterCity == undefined){
-    shelterCity = " ";
-  };
-
-  // State location of the shelter
-  shelterState = petInfo.contact.state.$t;
-  if(shelterState == undefined){
-    shelterState = "Not Available";
-  };
-  
-  // Full address of shelter"
-  if(petInfo.contact.address1.$t != undefined){
-    shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
-      + shelterState + ", " + shelterZip;
-  } else {
-    shelterFullAddress = shelterZip;
-  };
-
-  buildMap(shelterFullAddress);
-  // ID of the shelter
-  shelterID = petInfo.shelterId.$t;
-
+    buildMap(shelterFullAddress);
+    
+    // ID of the shelter
+    shelterID = petInfo.shelterId.$t;
 };
 
 function addDogs(){
@@ -464,60 +433,54 @@ reset();
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
-event.preventDefault();
-// change the property of the isFavorite in database
-// show all database isfavorites == true on page 
-
-
-
+    event.preventDefault();
+    // change the property of the isFavorite in database
+    // show all database isfavorites == true on page 
 });
 
 // When the user clicks "search," run
 $("body").on("click", "#search", function(){
-event.preventDefault();
+  event.preventDefault();
 
-// Capture the values 
-var searchZip = $("#searchZip").val().trim();
-var searchSize = $("#searchSize").val().trim();
-var searchGender = $("#searchGender").val().trim();
-var searchAge = $("#searchAge").val().trim();
-var searchNeutered = $("#searchNeutered").val().trim();
-var searchVaccinated = $("#searchNeutered").val().trim();
-var searchHouseTrained = $("#searchNeutered").val().trim();
-var searchNoKids = $("#searchNoKids").val().trim();
-var searchNoCats = $("#searchNoCats").val().trim();
-var searchSpecialNeeds = $("#searchSpecialNeeds").val().trim();
+  // Capture the values 
+  var searchZip = $("#searchZip").val().trim();
+  var searchSize = $("#searchSize").val().trim();
+  var searchGender = $("#searchGender").val().trim();
+  var searchAge = $("#searchAge").val().trim();
+  var searchNeutered = $("#searchNeutered").val().trim();
+  var searchVaccinated = $("#searchNeutered").val().trim();
+  var searchHouseTrained = $("#searchNeutered").val().trim();
+  var searchNoKids = $("#searchNoKids").val().trim();
+  var searchNoCats = $("#searchNoCats").val().trim();
+  var searchSpecialNeeds = $("#searchSpecialNeeds").val().trim();
 
-// Console log to figure out values 
-console.log(searchZip);
-console.log(searchSize);
-console.log(searchGender);
-console.log(searchAge);
-console.log(searchNeutered);
-console.log(searchVaccinated);
-console.log(searchHouseTrained);
-console.log(searchNoKids);
-console.log(searchNoCats);
-console.log(searchSpecialNeeds);
-
-
-// Call the API & Print results
-// findPet();
-
-// Reset the search boxes
-$("#searchZip").val("");
-$("#searchSize").val("");
-$("#searchGender").val("");
-$("#searchAge").val("");
-$("#searchNeutered").val("");
-$("#searchNeutered").val("");
-$("#searchNeutered").val("");
-$("#searchNoKids").val("");
-$("#searchNoCats").val("");
-$("#searchSpecialNeeds").val("");
+  // Console log to figure out values 
+  console.log(searchZip);
+  console.log(searchSize);
+  console.log(searchGender);
+  console.log(searchAge);
+  console.log(searchNeutered);
+  console.log(searchVaccinated);
+  console.log(searchHouseTrained);
+  console.log(searchNoKids);
+  console.log(searchNoCats);
+  console.log(searchSpecialNeeds);
 
 
+  // Call the API & Print results
+  // findPet();
+
+  // Reset the search boxes
+  $("#searchZip").val("");
+  $("#searchSize").val("");
+  $("#searchGender").val("");
+  $("#searchAge").val("");
+  $("#searchNeutered").val("");
+  $("#searchNeutered").val("");
+  $("#searchNeutered").val("");
+  $("#searchNoKids").val("");
+  $("#searchNoCats").val("");
+  $("#searchSpecialNeeds").val("");
 });
 
-}
 });
