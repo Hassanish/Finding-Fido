@@ -171,40 +171,77 @@ function setDogInfo(data){
   } else {
     petBreed = petInfo.breeds.breed.$t;
   };
-  // Changing pit bull terrier to AKC name
-  if(petBreed =="Pit Bull Terrier"){
-    petBreed = "American Staffordshire Terrier"
-  };
-  //Splitting the bread in separate strings
-  var breedSplit = petBreed.split(" ");
-  breedSite = "http://www.akc.org/dog-breeds/"
-  //Add each string to the URL to link to the AKC site with the correct page
-  for(i=0; i<breedSplit.length; i++){
-    var breed = breedSplit[i];
-    if(i<breedSplit.length -1){
-      breedSite+=breed+"-";
-    }else{
-      breedSite+=breed;
+  
+  function setDogInfo(data){
+    // Creating a variable to shorten path to get to dog info
+    petInfo = data.petfinder.pet
+    console.log(petInfo);
+
+    // Name of the pet
+    petName = petInfo.name.$t;
+
+    // Age of the pet 
+    petAge = petInfo.age.$t;
+
+    // ID of the pet 
+    petId = petInfo.id.$t;
+
+    // Gender of the pet
+    petGender = petInfo.sex.$t;
+    // Converting letter into full word
+    if(petGender == "M"){
+      petGender = "Male"
+    } else {
+      petGender = "Female"
     };
-  };
-  console.log(breedSite);
+  
+    // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
+    if(petInfo.breeds.breed[0] != undefined){
+      petBreed = petInfo.breeds.breed[0];
+      petBreed = petBreed.$t;
+    } else {
+      petBreed = petInfo.breeds.breed.$t;
+    };
+    // Changing pit bull terrier to AKC name
+    if(petBreed =="Pit Bull Terrier"){
+      petBreed = "American Staffordshire Terrier"
+    };
+    //Splitting the bread in separate strings
+    var breedSplit = petBreed.split(" ");
+    breedSite = "http://www.akc.org/dog-breeds/"
+    //Add each string to the URL to link to the AKC site with the correct page
+    for(i=0; i<breedSplit.length; i++){
+      var breed = breedSplit[i];
+      if(i<breedSplit.length -1){
+        breedSite+=breed+"-";
+      }else{
+        breedSite+=breed;
+      };
+    };
+    console.log(breedSite);
 
-  // Breed size 
-  petSize = petInfo.size.$t;
+    // Breed size 
+    petSize = petInfo.size.$t;
 
-  // Converting size into full word
-  if(petSize == "L"){
-    petSize = "Large";
-  } else if (petSize == "M"){
-    petSize = "Medium";
-  } else if (petSize == "S"){
-    petSize = "Small";
-  } else {
-    petSize = "Extra Large"
-  };
-
+    // Converting size into full word
+    if(petSize == "L"){
+      petSize = "Large";
+    } else if (petSize == "M"){
+      petSize = "Medium";
+    } else if (petSize == "S"){
+      petSize = "Small";
+    } else {
+      petSize = "Extra Large"
+    };
   // Descr from shelter
   petDesc = petInfo.description.$t;
+
+  // Loading photos of the dog into an array
+  dogPhotos = [];
+  for(i=0; i<petInfo.media.photos.photo.length; i++){
+    var currentPhoto = petInfo.media.photos.photo[i];
+    dogPhotos.push(currentPhoto.$t);
+  };
 
   // Background info on dog (neutered, vaccinated, good with kids, housetrained)
   var petOptions = petInfo.options.option;
@@ -260,6 +297,7 @@ function setDogInfo(data){
     shelterPhone = "Not Available";
   };
 
+
   // City location of the shelter
   shelterCity = petInfo.contact.city.$t;
   if(shelterCity == undefined){
@@ -284,14 +322,7 @@ function setDogInfo(data){
   // ID of the shelter
   shelterID = petInfo.shelterId.$t;
 
-  // Loading photos of the dog into an array
-  dogPhotos = [];
-  for(i=0; i<petInfo.media.photos.photo.length; i++){
-    var currentPhoto = petInfo.media.photos.photo[i];
-    dogPhotos.push(currentPhoto.$t);
-  };
 };
-
 
 function addDogs(){
   // Run API to find the shelter name
@@ -423,10 +454,11 @@ function addDogs(){
 
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
-$("#showDogs").fadeOut();
-for(i=0;i<10;i++){
-  randomDog();
-}; 
+  event.preventDefault();
+  $("#showDogs").fadeOut();
+  for(i=0;i<10;i++){
+    randomDog();
+  }; 
 reset();
 });
 
@@ -487,4 +519,5 @@ $("#searchSpecialNeeds").val("");
 
 });
 
+}
 });
