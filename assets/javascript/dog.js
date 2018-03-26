@@ -37,6 +37,7 @@ function randomDog (){
       dataType: 'json',
       success : function(data) { 
         setDogInfo(data);
+        addDogs();
       },
       error : function (request, error)
       {
@@ -350,7 +351,7 @@ function findPet (){
       modalContact.append("Contact the shelter to learn more about "+petName+"!");
     };
     modalContact.append("<br> Phone: " +shelterPhone
-      +"<br> Email: "+shelterEmail+"<br> Address: "+shelterFullAddress);
+      +"<br> Email: "+shelterEmail+"<br> Address/Zip: "+shelterFullAddress);
 
     // Append to the newly created div
     newDiv.append(newImg);
@@ -366,14 +367,11 @@ function findPet (){
 
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
-  // for(i=0;i<10;i++){
+  for(i=0;i<10;i++){
     randomDog();
     findShelterName();
-    // $(document).ajaxComplete(function (){
-    //   addRandomDogs();
-    // });
-    setTimeout(addDogs, 300);
-  // }; 
+
+  }; 
   reset();
 });
 
