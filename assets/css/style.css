@@ -84,4 +84,6 @@ button, .bg-dark {
     width: 16%;
     margin:  2% 2% 50px 2%; 
    } */
-
+#favs{
+  display: none;
+}
