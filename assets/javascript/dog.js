@@ -106,6 +106,7 @@ if(searchAge == "Any!"){
         (searchNoKids==true && petKids!="Not good with children") ||
         (searchSpecialNeeds==true && petSpecial !="This dog has special needs. Please contact the shelter to learn more.") ||
         (searchVaccinated==true && petShots=="Vaccinated")) {
+          
           addDogs();
           reset();
       }
@@ -129,11 +130,11 @@ function findShelterName (){
       dataType: 'json',
       success : function(data) { 
         console.log(data);
-        if(data.petfinder.shelter.name.$t != undefined){
-          shelterName = data.petfinder.shelter.name.$t;
-        } else {
+        shelterName = (data.petfinder.shelter.name.$t);
+        if(shelterName == undefined){
           shelterName = "Unknown";
         };
+        console.log(shelterName);
       },
     })
 };
@@ -321,12 +322,15 @@ function setDogInfo(data, occurance){
   // buildMap(shelterFullAddress);
   // ID of the shelter
   shelterID = petInfo.shelterId.$t;
+
+  // Calling shelter API
+  findShelterName();
+
 };
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
-  // Run API to find the shelter name
-  findShelterName();
+
   // Create new page elements to hold short info on dog
   var newDiv = $("<div class='card' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
@@ -419,13 +423,18 @@ function addDogs(){
     if(petShots != "Unknown"){
       modalAttributes.append(petShots + "<br>");
     };
+
+    modalAttributes.append(petSize+" / "+petAge+" / "+petGender+"<br>");
+    modalAttributes.append(petBreed+"<br> <a href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
+
     
     // Append the description to the modal description div 
     modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
 
     // Determine what to post to the modal contact info & appending to modal
     // If the shelter name is blank, just post a generic message.
-    if(shelterName != " "){
+    console.log(shelterName);
+    if(shelterName !== "Unknown"){
       modalContact.append("Contact "+shelterName+ " to learn more about "+petName+"!");
     } else {
       modalContact.append("Contact the shelter to learn more about "+petName+"!");
