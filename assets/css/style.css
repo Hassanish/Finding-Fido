@@ -15,6 +15,10 @@
 
 }
 
+.searchBox{
+  display: none;
+}
+
 header h1 {
   font-family: "Arial Black", Helvetica, sans-serif;
   font-size: 4rem;

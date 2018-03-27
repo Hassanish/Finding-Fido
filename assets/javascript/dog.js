@@ -50,9 +50,10 @@ function randomDog (){
     url : queryURL+'&callback=?' ,
     dataType: 'json',
     success : function(data) { 
-      setDogInfo(data);
+      setDogInfo(data, 0);
       addDogs();
       reset();
+      
     },
     error : function (request, error)
     {
@@ -61,26 +62,37 @@ function randomDog (){
   })
 };
 
+
 // Pulls pet info based on criteria 
 function findPet (){
-var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
-
+var queryURL = "http://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
+// if(searchSize== "Any!"){
+//   searchSize = null;
+// };
+// if(searchGender == "Either!"){
+//     searchGender = null;
+// };
+// if(searchAge == "Any!"){
+//   searchAge = null;
+// };
   $.ajax({
     type : 'GET',
     url : queryURL+'&callback=?' ,
     dataType: 'json',
     data : {
       // Set these equal to the input boxes
-      size: searchSize,
-      sex: searchGender,
-      location: searchZip,
-      age : searchAge,
+      // size: "S",
+      // sex: searchGender,
+      location: "55415",
+      // age : searchAge,
     },
     success : function(data) { 
-      setDogInfo(data);
-      // Use input boxes to hide certain results based on input******
-      if(searchHouseTrained == true){
-        
+      console.log(data);
+      for(occurance=0; occurance<25; occurance++){
+        console.log(occurance);
+      setDogInfo(data, occurance);
+      addDogs();
+      reset();
       }
     },
     error : function (request, error)
@@ -89,7 +101,7 @@ var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&a
     }
   })
 };
-
+findPet();
 // Find shelter name based on ID using API 
 function findShelterName (){
   var queryURL = "http://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
@@ -142,10 +154,25 @@ function reset(){
 function buildMap (address){
 };
 
+// // Function to determine what petInfo is 
+// function petInfo(data){
+//   petInfo = data.petfinder.pet
+//   if(petInfo == undefined){
+//     for(i=0;i<25;i++){
+//     petInfo = data.petfinder.pets[i];
+//     };
+//   } else {
+//     setDogInfo(petInfo);
+//   }
+// }
 // Function to set all API data received from the call to a variable  
-function setDogInfo(data){
+function setDogInfo(data, occurance){
+  console.log(data);
   // Creating a variable to shorten path to get to dog info
   petInfo = data.petfinder.pet
+  if(petInfo == undefined){
+   petInfo = data.petfinder.pets.pet[occurance]; 
+  }
   console.log(petInfo);
   // Name of the pet
   petName = petInfo.name.$t;
@@ -291,6 +318,7 @@ function setDogInfo(data){
   shelterID = petInfo.shelterId.$t;
   };
 
+//Function to add summary dog cards and modals for each dog
 function addDogs(){
   // Run API to find the shelter name
   findShelterName();
@@ -439,6 +467,7 @@ function addDogs(){
 
   // Append div to the page
   $(".randomDog").prepend(newDiv);
+  // $(".searchDog").prepend(newDiv);
 
 };
 
@@ -449,6 +478,12 @@ $("#showDogs").on("click", function(){
   $("#showDogs").fadeOut();
   // Fade out the home page picture
   $("#homedog").fadeOut();
+  // Fade out the search dogs
+  $(".searchDog").css("display", "none");
+  // Fade in the random dogs
+  $(".randomDog").fadeIn();
+  // Fade in the search form
+  $(".searchBox").fadeIn(2000);
   // Run the random dog function 10 times
   for(i=0;i<10;i++){
     randomDog();
@@ -484,18 +519,25 @@ $("body").on("click", "#favorite", function(){
 // When the user clicks "search," run the following 
 $("body").on("click", "#search", function(){
   event.preventDefault();
-
+  // Fade out the Show me Adoptable Dogs Button
+  $("#showDogs").fadeOut(0);
+  // Fade out the home page picture
+  $("#homedog").fadeOut();
+  // Fade out the random dogs
+  $(".randomDog").html("");
+  // Fade in the search dogs
+  $(".searchBox").fadeIn(600);
   // Capture the values 
   var searchZip = $("#searchZip").val().trim();
   var searchSize = $("#searchSize").val().trim();
   var searchGender = $("#searchGender").val().trim();
   var searchAge = $("#searchAge").val().trim();
-  var searchNeutered = $("#searchNeutered").val().trim();
-  var searchVaccinated = $("#searchNeutered").val().trim();
-  var searchHouseTrained = $("#searchNeutered").val().trim();
-  var searchNoKids = $("#searchNoKids").val().trim();
-  var searchNoCats = $("#searchNoCats").val().trim();
-  var searchSpecialNeeds = $("#searchSpecialNeeds").val().trim();
+  var searchNeutered = $("#searchNeutered").prop("checked");
+  var searchVaccinated = $("#searchVaccinated").prop("checked");
+  var searchHouseTrained = $("#searchHouseTrained").prop("checked");
+  var searchNoKids = $("#searchNoKids").prop("checked");
+  var searchNoCats = $("#searchNoCats").prop("checked");
+  var searchSpecialNeeds = $("#searchSpecialNeeds").prop("checked");
 
   // Console log to figure out values 
   console.log(searchZip);
@@ -511,19 +553,10 @@ $("body").on("click", "#search", function(){
 
 
   // Call the API & Print results
-  // findPet();
+  findPet();
 
-  // Reset the search boxes
+  // Reset the search box for zip
   $("#searchZip").val("");
-  $("#searchSize").val("");
-  $("#searchGender").val("");
-  $("#searchAge").val("");
-  $("#searchNeutered").val("");
-  $("#searchNeutered").val("");
-  $("#searchNeutered").val("");
-  $("#searchNoKids").val("");
-  $("#searchNoCats").val("");
-  $("#searchSpecialNeeds").val("");
 });
 
 });
