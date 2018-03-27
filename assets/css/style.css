@@ -19,20 +19,18 @@
   display: none;
 }
 
-header h1, .navbar-brand {
+header h1 {
   font-family: "Arial Black", Helvetica, sans-serif;
-  /* font-size: 4rem; */
+  font-size: 4rem;
   letter-spacing: -.06em;
-  /* color: #751113; */
+  color: #751113;
   text-transform: uppercase;
   line-height: 85%;
 }
-
-header h1 {
-  font-size: 4rem;
-  color: #751113;
-}
-
+/* #showDogs {
+  display: block;
+  margin: auto;
+} */
 .container{
   display: flex;
   justify-content: center;
@@ -41,7 +39,7 @@ header h1 {
     margin: 30px auto;
     overflow: hidden;
 }
-button, .bg-dark {
+button, bg-dark {
   background-color: #751113 !important;
   border-color: #751113 !important;
 }
@@ -85,5 +83,5 @@ button, .bg-dark {
     margin:  2% 2% 50px 2%; 
    } */
 #favs{
-  display: none;
+  display: none
 }
