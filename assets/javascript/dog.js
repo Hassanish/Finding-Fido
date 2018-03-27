@@ -110,10 +110,8 @@ if(searchAge == "Any!"){
         for(i=0;i<responseArray.length;i++){
           if(responseArray[i] == true){
             searchCounter++;
-            console.log(searchCounter);
             if(petInfoArray[i] == trueResponseArray[i]){
               trueCounter++;
-              console.log(trueCounter);
             };
           };
         };
@@ -346,6 +344,7 @@ function addDogs(){
   var newImg = $("<img class='card-img-top'>");
   var newH5 = $("<h5 class='card-title'>");
   var newP = $("<p class='card-text'>");
+  var mapButton=$("<button type='button' class='btn btn-primary' id='mapBtn' >Locate Me</button>");
 
   // Change the attributes and text of created elements
   newImg.attr("src", dogPhotos[2]);
@@ -355,6 +354,8 @@ function addDogs(){
   } else {
     newP.text(petBreed);
   };
+
+newP.append(mapButton);
 
   // CREATING THE MODAL & all related classes
     var newModal = $("<div class='modal' role='dialog' aria-hidden='true'>");
@@ -389,17 +390,13 @@ function addDogs(){
     modalFooter.append(closeButton);
     var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
-    // Creates a modal div to hold the map for Google Maps API
-    var modalMap = $("<div id='map'>");
-    modalContact.append(modalMap);
 
     // Giving the modal an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
-    modalMap.attr("id", petId + "map");
 
     // Linking the button to the modal for the pet with a matching Id
-    var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>Learn more about "+petName+"</button>");
+    var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
     seeMoreBtn.attr("data-target", "#"+petId);
     // Adding attributes for use in Google Maps API
     seeMoreBtn.attr("dog", petId);
@@ -442,14 +439,9 @@ function addDogs(){
     modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
 
     // Determine what to post to the modal contact info & appending to modal
-    // If the shelter name is blank, just post a generic message.
-    console.log(shelterName);
-    
-    if(shelterName != " "){
-      modalContact.append("Contact "+shelterName+ " to learn more about "+petName+"!");
-    } else {
-      modalContact.append("Contact the shelter to learn more about "+petName+"!");
-    };
+  
+    modalContact.append("Contact the shelter to learn more about "+petName+"!");
+
     // Append the phone, email, and address to the contact section
     modalContact.append("<br> Phone: " +shelterPhone
       +"<br> Email: "+shelterEmail+"<br> Address/Zip: "+shelterFullAddress);
@@ -528,8 +520,7 @@ $("body").on("click", "#seeMoreBtn",function(){
   shelterFullAddress = address;
   console.log(address);
 
-  // Run the Google Maps API
-  initialize();
+
   reset();
 })
 
