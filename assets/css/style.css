@@ -77,6 +77,11 @@ header h1 {
     border-color: #3b0708 !important;
   }
 
+  #favs{
+    display: none
+  }
+  
+
    /* #mapBtn {
      
    } */
@@ -103,7 +108,4 @@ header h1 {
   
     }
 
-#favs{
-  display: none
-}
 
