@@ -49,18 +49,6 @@ header h1 {
   border-color: #3b0708 !important;
 }
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 4;
-    column-gap: 1rem;
-
-  }
-  @include media-breakpoint-only(xl) {
-    column-count: 5;
-    column-gap: 1.25rem;
-
-  }
-
 
    .galleryItem {
     color: #797478;
@@ -79,9 +67,19 @@ header h1 {
     border-radius: 5px;
    }
 
-   #mapBtn {
+   .btn-primary, .bg-dark {
+    background-color: #751113 !important;
+    border-color: #751113 !important;
+  }
+  
+  .btn-dark {
+    background-color: #3b0708 !important;
+    border-color: #3b0708 !important;
+  }
+
+   /* #mapBtn {
      
-   }
+   } */
 
    /* .galleryItem {
     color: #797478;
@@ -91,6 +89,21 @@ header h1 {
     width: 16%;
     margin:  2% 2% 50px 2%; 
    } */
+
+
+   .card-columns {
+    @include media-breakpoint-only(lg) {
+      column-count: 4;
+      column-gap: 1rem;
+  
+    }
+    @include media-breakpoint-only(xl) {
+      column-count: 5;
+      column-gap: 1.25rem;
+  
+    }
+
 #favs{
   display: none
 }
+
