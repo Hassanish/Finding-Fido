@@ -347,7 +347,7 @@ function addDogs(){
   newImg.attr("src", dogPhotos[2]);
   newH5.text(petName);
   if(shelterCity != " "){
-    newP.html(petBreed+"<br>"+ shelterCity+", "+shelterState);
+    newP.html(petBreed+"<br>"+ shelterCity+", "+shelterState+"<br>");
   } else {
     newP.text(petBreed);
   };
@@ -525,29 +525,28 @@ $("body").on("click", "#seeMoreBtn",function(){
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
-
+    $("#favs").fadeIn();
     $(this).closest("#favorite").fadeOut();
     $(this).siblings("#closeBtn").css("display", "none");
     $(this).siblings("#remove").css("display", "block");
     console.log($(this).closest("#favorite"));
+    var favDog = $("<div class='favDog'>")
     $(this)
       .parentsUntil(".modal-dialog")
-      .appendTo($(".favorites"))
-  
-
-        // Set value of database isFavorite to true
-    // show all database isfavorites == true on page 
+      .appendTo($(favDog));
+    
+    $(".favorites").append(favDog);
+   
 });
 
-// When user clickes "Add to Favorites," run the following
+// When user clickes "Remove from Favorites," run the following
 $("body").on("click", "#remove", function(){
-  $("#remove").fadeOut();
-  $("#favorite").fadeIn();
+   $(this).closest(".favDog").remove();
   
 });
 
 // When the user clicks "search," run the following 
-$("body").on("click", "#search", function(){
+$("body").on("click", "#search", function(event){
   event.preventDefault();
   // Fade out the Show me Adoptable Dogs Button
   $("#showDogs").fadeOut(0);
@@ -561,8 +560,6 @@ $("body").on("click", "#search", function(){
   // Call the API & Print results
   findPet();
 
-  // Reset the search box for zip
-  // $("#searchZip").val("");
 });
 
 });
