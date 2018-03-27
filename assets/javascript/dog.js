@@ -51,6 +51,7 @@ function randomDog (){
     dataType: 'json',
     success : function(data) { 
       setDogInfo(data, 0);
+      // findShelterName();
       addDogs();
       reset();
       
@@ -100,16 +101,16 @@ if(searchAge == "Any!"){
       for(occurance=0; occurance<25; occurance++){
         console.log(occurance);
       setDogInfo(data, occurance);
-      if((searchNeutered==true && petNeuter=="Neutered/Spayed") ||
-        (searchHouseTrained==true && petHouseTrained=="House trained") ||
-        (searchNoCats==true && petCats!="Not good with cats") ||
-        (searchNoKids==true && petKids!="Not good with children") ||
-        (searchSpecialNeeds==true && petSpecial !="This dog has special needs. Please contact the shelter to learn more.") ||
-        (searchVaccinated==true && petShots=="Vaccinated")) {
-          
+      // if((searchNeutered==true && petNeuter=="Neutered/Spayed") ||
+      //   (searchHouseTrained==true && petHouseTrained=="House trained") ||
+      //   (searchNoCats==true && petCats!="Not good with cats") ||
+      //   (searchNoKids==true && petKids!="Not good with children") ||
+      //   (searchSpecialNeeds==true && petSpecial !="This dog has special needs. Please contact the shelter to learn more.") ||
+      //   (searchVaccinated==true && petShots=="Vaccinated")) {
+          findShelterName();
           addDogs();
           reset();
-      }
+      // }
       }
     },
     error : function (request, error)
@@ -131,9 +132,6 @@ function findShelterName (){
       success : function(data) { 
         console.log(data);
         shelterName = (data.petfinder.shelter.name.$t);
-        if(shelterName == undefined){
-          shelterName = "Unknown";
-        };
         console.log(shelterName);
       },
     })
@@ -323,14 +321,12 @@ function setDogInfo(data, occurance){
   // ID of the shelter
   shelterID = petInfo.shelterId.$t;
 
-  // Calling shelter API
-  findShelterName();
 
 };
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
-
+  findShelterName();
   // Create new page elements to hold short info on dog
   var newDiv = $("<div class='card' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
@@ -434,7 +430,8 @@ function addDogs(){
     // Determine what to post to the modal contact info & appending to modal
     // If the shelter name is blank, just post a generic message.
     console.log(shelterName);
-    if(shelterName !== "Unknown"){
+    
+    if(shelterName != " "){
       modalContact.append("Contact "+shelterName+ " to learn more about "+petName+"!");
     } else {
       modalContact.append("Contact the shelter to learn more about "+petName+"!");
@@ -536,31 +533,16 @@ $("body").on("click", "#search", function(){
   $("#showDogs").fadeOut(0);
   // Fade out the home page picture
   $("#homedog").fadeOut();
-  // Fade out the random dogs
+  // Clear out random dogs
   $(".randomDog").html("");
   // Fade in the search dogs
   $(".searchBox").fadeIn(600);
-  // Capture the values 
-
-
-  // Console log to figure out values 
-  console.log(searchZip);
-  console.log(searchSize);
-  console.log(searchGender);
-  console.log(searchAge);
-  console.log(searchNeutered);
-  console.log(searchVaccinated);
-  console.log(searchHouseTrained);
-  console.log(searchNoKids);
-  console.log(searchNoCats);
-  console.log(searchSpecialNeeds);
-
-
+  
   // Call the API & Print results
   findPet();
 
   // Reset the search box for zip
-  $("#searchZip").val("");
+  // $("#searchZip").val("");
 });
 
 });
