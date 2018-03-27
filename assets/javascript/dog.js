@@ -338,10 +338,10 @@ function addDogs(){
   // Create new page elements to hold short info on dog
   var newDiv = $("<div class='card text-white bg-dark mb-3' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
-  var newH5 = $("<h5 class='card-title'>");
-  var newP = $("<p class='card-text'>");
-  var mapButton=$("<button type='button' class='btn btn-primary' id='mapBtn' >Locate Me</button>");
-  var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
+  var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
+  var newP = $("<p class='card-text ml-2 my-0'>");
+  var mapButton=$("<button type='button' class='btn btn-dark text-warning ml-2 py-0' id='mapBtn' >Locate Me</button>");
+  var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
 
   // Change the attributes and text of created elements
   newImg.attr("src", dogPhotos[2]);
@@ -359,13 +359,13 @@ newP.append(mapButton);
     var modalDialog = $("<div class='modal-dialog' role='document'>");
     newModal.append(modalDialog);
     // Creates main content of modal
-    var modalContent=$("<div class='modal-content'>");
+    var modalContent=$("<div class='modal-content bg-dark'>");
     modalDialog.append(modalContent);
     // Creates the div to hold the modal header
     var modalHeader=$("<div class='modal-header'>");
     modalContent.append(modalHeader);
     // Creates the div to hold the modal title & append to header
-    var modalTitle=$("<h5 class='modal-title'>");
+    var modalTitle=$("<h5 class='modal-title text-warning'>");
     modalHeader.append(modalTitle);
     // Creates the div for the body of the modal
     var modalBody=$("<div class='modal-body'>");
@@ -374,7 +374,7 @@ newP.append(mapButton);
     var modalAttributes=$("<div class='modal-dog-attr'>");
     modalBody.append(modalAttributes);
     // Creates a div to hold the pet descr
-    var modalDesc=$("<div class='modal-dog-desc'>");
+    var modalDesc=$("<div class='modal-dog-desc text-muted'>");
     modalBody.append(modalDesc);
     // Creates a div to hold the contact shelter info
     var modalContact=$("<div class='shelter-contact'>");
@@ -430,7 +430,7 @@ newP.append(mapButton);
     };
 
     modalAttributes.append(petSize+" / "+petAge+" / "+petGender+"<br>");
-    modalAttributes.append(petBreed+"<br> <a href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
+    modalAttributes.append(petBreed+"<br> <a class='text-warning' href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
 
     
     // Append the description to the modal description div 
