@@ -365,7 +365,7 @@ function addDogs(){
     newP.text(petBreed);
   };
 
-newP.append(mapButton);
+  newP.append(mapButton);
 
   // CREATING THE MODAL & all related classes
   // -----------------------------------------------------------------------------------------------------------------
