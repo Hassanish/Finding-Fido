@@ -18,6 +18,102 @@
     <header>
         <h1 class="text-center my-3" onclick="location.reload();">Finding Fido</h1>
     </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- <a class="navbar-brand" onclick="location.reload();">Finding Filo</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" onclick="location.reload();">Start Over
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <div class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Refine My Search!
+                    </div>
+                    <div class="dropdown-menu searchBox" aria-labelledby="navbarDropdown">
+                        <form>
+                            <div class="dropdown-item">Zip Code
+                                <input type="text" class="form-control" id="searchZip" placeholder="Enter your five digit zip code here">
+                            </div>
+                            <div class="dropdown-item form-group">Size
+                                <select class="form-control" id="searchSize">
+                                    <option>Any!</option>
+                                    <option>S</option>
+                                    <option>M</option>
+                                    <option>L</option>
+                                    <option>XL</option>
+                                </select>
+                            </div>
+                            <div class="dropdown-item form-row">
+                                <div class="form-group col">Gender
+                                    <select class="form-control" id="searchGender">
+                                        <option>Either!</option>
+                                        <option>M</option>
+                                        <option>F</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">Age
+                                    <select class="form-control" id="searchAge">
+                                        <option>Any!</option>
+                                        <option>Baby</option>
+                                        <option>Young</option>
+                                        <option>Adult</option>
+                                        <option>Senior</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+
+                            <div class="dropdown-item" id="showMe">Additional Search Criteria
+                                <br> Show me dogs that are ...
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchNeutered">
+                                    <label class="form-check-label" for="searchNeutered">Neutered/Spayed</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchVaccinated">
+                                    <label class="form-check-label" for="searchVaccinated">Vaccinated</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchHouseTrained">
+                                    <label class="form-check-label" for="searchHouseTrained">House Trained</label>
+                                </div>
+                            </div>
+                            <div class="dropdown-item" id="dontShowMe">Please omit dogs that are ...
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchNoKids">
+                                    <label class="form-check-label" for="searchNoKids">Not good with kids</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchNoCats">
+                                    <label class="form-check-label" for="searchNoCats">Not good with cats</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="searchSpecialNeeds">
+                                    <label class="form-check-label" for="searchSpecialNeeds">Special Needs</label>
+                                </div>
+                            </div>
+                            <button type="submit" id="search" class="btn btn-primary">Search for Fido!</button>
+
+                        </form>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
     <div id="homedog" class="h-75">
         <div class="container h-100">
             <button class="btn-lg btn-primary" id="showDogs">Show me adoptable dogs!</button>
@@ -28,99 +124,30 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-            <div class="searchBox">
-                <a class="btn btn-primary" data-toggle="collapse" href="#inputCollapse" aria-expanded="false" aria-controls="inputCollapse">Refine my search</a>
-                    <form class="collapse" id="inputCollapse">
-                            <div class="form-group">
-                              <label for="searchZip">Zip Code</label>
-                              <input type="text" class="form-control" id="searchZip" placeholder="Enter your five digit zip code here">
-                            </div>
-                            <div class="form-group">
-                                    <label for="searchSize">Approx size of dog</label>
-                                    <select class="form-control" id="searchSize">
-                                      <option>Any!</option>
-                                      <option>S</option>
-                                      <option>M</option>
-                                      <option>L</option>
-                                      <option>XL</option>
-                                    </select>
-                            </div>
-                            <div class="form-group">
-                                    <label for="searchGender">Gender</label>
-                                    <select class="form-control" id="searchGender">
-                                      <option>Either!</option>
-                                      <option>M</option>
-                                      <option>F</option>
-                                    </select>
-                            </div>
-                            <div class="form-group">
-                                    <label for="searchAge">Age</label>
-                                    <select class="form-control" id="searchAge">
-                                      <option>Any!</option>
-                                      <option>Baby</option>
-                                      <option>Young</option>
-                                      <option>Adult</option>
-                                      <option>Senior</option>
-                                    </select>
-                            </div>
-                        
-                            <input type="text" readonly class="form-control-plaintext" id="staticMessage" value="Additional search criteria">
-
-                            <input type="text" readonly class="form-control-plaintext" id="showMe" value="Show me dogs that are...">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="searchNeutered">
-                                <label class="form-check-label" for="searchNeutered">Neutered/Spayed</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="searchVaccinated">
-                                <label class="form-check-label" for="searchVaccinated">Vaccinated</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="searchHouseTrained">
-                                    <label class="form-check-label" for="searchHouseTrained">House Trained</label>
-                            </div>
-                            <input type="text" readonly class="form-control-plaintext" id="dontShowMe" value="Please omit dogs that are...">
-                            <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="searchNoKids">
-                                    <label class="form-check-label" for="searchNoKids">Not good with kids</label>
-                                </div>
-                            <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="searchNoCats">
-                                    <label class="form-check-label" for="searchNoCats">Not good with cats</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="searchSpecialNeeds">
-                                    <label class="form-check-label" for="searchSpecialNeeds">Special Needs</label>
-                            </div>
-                            <button type="submit" id="search" class="btn btn-primary">Search for Fido!</button>
-                        </form>
+                <div class="randomDog card-columns">
+                </div>
             </div>
-            <div class="randomDog card-columns">
-            </div>
-            </div>
-            <div class = "col-md-1"></div>
+            <div class="col-md-1"></div>
         </div>
+        <!-- Firebase Reference -->
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
-<!-- Firebase Reference -->
-<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <!-- GOOGLE MAPS LINKS -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJFtXB5ELd7xm6QiRfSGOkwzv3-Yd5Tv4"></script>
 
-<!-- GOOGLE MAPS LINKS -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJFtXB5ELd7xm6QiRfSGOkwzv3-Yd5Tv4"
-></script>
-
-<!-- JavaScript page refs -->
-<script src="assets/javascript/map.js"></script>
-<script src="assets/javascript/dog.js"></script>
+        <!-- JavaScript page refs -->
+        <script src="assets/javascript/map.js"></script>
+        <script src="assets/javascript/dog.js"></script>
 
 
-<!-- BOOTSTRAP LINKS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+        <!-- BOOTSTRAP LINKS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
- 
+
 
 </body>
 
