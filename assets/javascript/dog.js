@@ -66,33 +66,49 @@ function randomDog (){
 // Pulls pet info based on criteria 
 function findPet (){
 var queryURL = "http://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
-// if(searchSize== "Any!"){
-//   searchSize = null;
-// };
-// if(searchGender == "Either!"){
-//     searchGender = null;
-// };
-// if(searchAge == "Any!"){
-//   searchAge = null;
-// };
+var searchZip = $("#searchZip").val().trim();
+var searchSize = $("#searchSize").val().trim();
+var searchGender = $("#searchGender").val().trim();
+var searchAge = $("#searchAge").val().trim();
+var searchNeutered = $("#searchNeutered").prop("checked");
+var searchVaccinated = $("#searchVaccinated").prop("checked");
+var searchHouseTrained = $("#searchHouseTrained").prop("checked");
+var searchNoKids = $("#searchNoKids").prop("checked");
+var searchNoCats = $("#searchNoCats").prop("checked");
+var searchSpecialNeeds = $("#searchSpecialNeeds").prop("checked");
+if(searchSize== "Any!"){
+  searchSize = null;
+};
+if(searchGender == "Either!"){
+    searchGender = null;
+};
+if(searchAge == "Any!"){
+  searchAge = null;
+};
   $.ajax({
     type : 'GET',
     url : queryURL+'&callback=?' ,
     dataType: 'json',
     data : {
-      // Set these equal to the input boxes
-      // size: "S",
-      // sex: searchGender,
-      location: "55415",
-      // age : searchAge,
+      size: searchSize,
+      sex: searchGender,
+      location: searchZip,
+      age : searchAge,
     },
     success : function(data) { 
       console.log(data);
       for(occurance=0; occurance<25; occurance++){
         console.log(occurance);
       setDogInfo(data, occurance);
-      addDogs();
-      reset();
+      if((searchNeutered==true && petNeuter=="Neutered/Spayed") ||
+        (searchHouseTrained==true && petHouseTrained=="House trained") ||
+        (searchNoCats==true && petCats!="Not good with cats") ||
+        (searchNoKids==true && petKids!="Not good with children") ||
+        (searchSpecialNeeds==true && petSpecial !="This dog has special needs. Please contact the shelter to learn more.") ||
+        (searchVaccinated==true && petShots=="Vaccinated")) {
+          addDogs();
+          reset();
+      }
       }
     },
     error : function (request, error)
@@ -101,7 +117,7 @@ var queryURL = "http://api.petfinder.com/pet.find?format=json&output=full&animal
     }
   })
 };
-findPet();
+
 // Find shelter name based on ID using API 
 function findShelterName (){
   var queryURL = "http://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
@@ -154,17 +170,6 @@ function reset(){
 function buildMap (address){
 };
 
-// // Function to determine what petInfo is 
-// function petInfo(data){
-//   petInfo = data.petfinder.pet
-//   if(petInfo == undefined){
-//     for(i=0;i<25;i++){
-//     petInfo = data.petfinder.pets[i];
-//     };
-//   } else {
-//     setDogInfo(petInfo);
-//   }
-// }
 // Function to set all API data received from the call to a variable  
 function setDogInfo(data, occurance){
   console.log(data);
@@ -316,7 +321,7 @@ function setDogInfo(data, occurance){
   // buildMap(shelterFullAddress);
   // ID of the shelter
   shelterID = petInfo.shelterId.$t;
-  };
+};
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
@@ -459,6 +464,7 @@ function addDogs(){
     
 
   // Append to the newly created div
+  
   newDiv.append(newImg);
   newDiv.append(newH5);
   newDiv.append(newP);
@@ -528,16 +534,7 @@ $("body").on("click", "#search", function(){
   // Fade in the search dogs
   $(".searchBox").fadeIn(600);
   // Capture the values 
-  var searchZip = $("#searchZip").val().trim();
-  var searchSize = $("#searchSize").val().trim();
-  var searchGender = $("#searchGender").val().trim();
-  var searchAge = $("#searchAge").val().trim();
-  var searchNeutered = $("#searchNeutered").prop("checked");
-  var searchVaccinated = $("#searchVaccinated").prop("checked");
-  var searchHouseTrained = $("#searchHouseTrained").prop("checked");
-  var searchNoKids = $("#searchNoKids").prop("checked");
-  var searchNoCats = $("#searchNoCats").prop("checked");
-  var searchSpecialNeeds = $("#searchSpecialNeeds").prop("checked");
+
 
   // Console log to figure out values 
   console.log(searchZip);
