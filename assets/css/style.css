@@ -41,9 +41,14 @@ header h1 {
     margin: 30px auto;
     overflow: hidden;
 }
-button, .bg-dark {
+.btn-primary, .bg-dark {
   background-color: #751113 !important;
   border-color: #751113 !important;
+}
+
+.btn-dark {
+  background-color: #3b0708 !important;
+  border-color: #3b0708 !important;
 }
 
 .card-columns {
@@ -74,6 +79,10 @@ button, .bg-dark {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+   }
+
+   #mapBtn {
+     
    }
 
    /* .galleryItem {
