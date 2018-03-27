@@ -484,8 +484,6 @@ $("#showDogs").on("click", function(){
   $("#showDogs").fadeOut();
   // Fade out the home page picture
   $("#homedog").fadeOut();
-  // Fade out the search dogs
-  $(".searchDog").css("display", "none");
   // Fade in the random dogs
   $(".randomDog").fadeIn();
   // Fade in the search form
@@ -518,7 +516,7 @@ $("body").on("click", "#seeMoreBtn",function(){
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
     event.preventDefault();
-    // change the property of the isFavorite in database
+    // Set value of database isFavorite to true
     // show all database isfavorites == true on page 
 });
 
