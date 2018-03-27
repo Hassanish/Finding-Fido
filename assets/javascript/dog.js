@@ -12,6 +12,7 @@ firebase.initializeApp(config);
 $(document).ready(function(){
 
 // DEFINING GLOBAL VARIABLES
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
   var database = firebase.database();
   var petInfo;
   var petName;
@@ -40,52 +41,56 @@ $(document).ready(function(){
   var apiKey = "359eebb45ac45f0d4449411094f651f8";
   var thisPetInfo = {};
 
-// Pulls a random dog from the API
-function randomDog (){
-  var queryURL = "https://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
+// DEFINING FUNCTIONS
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------
+  // Pulls a random dog from the API
+  function randomDog (){
+    var queryURL = "https://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
-  $.ajax({
-    type : 'GET',
-    data : {},
-    url : queryURL+'&callback=?' ,
-    dataType: 'json',
-    success : function(data) { 
-      setDogInfo(data, 0);
-      // findShelterName();
-      addDogs();
-      reset();
-      
-    },
-    error : function (request, error)
-    {
-      alert("Request: "+JSON.stringify(request));
-    }
-  })
-};
+    $.ajax({
+      type : 'GET',
+      data : {},
+      url : queryURL+'&callback=?' ,
+      dataType: 'json',
+      success : function(data) { 
+        setDogInfo(data, 0);
+        // findShelterName();
+        addDogs();
+        reset();
+        
+      },
+      error : function (request, error)
+      {
+        alert("Request: "+JSON.stringify(request));
+      }
+    })
+  };
 
 
 // Pulls pet info based on criteria 
 function findPet (){
-var queryURL = "https://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
-var searchZip = $("#searchZip").val().trim();
-var searchSize = $("#searchSize").val().trim();
-var searchGender = $("#searchGender").val().trim();
-var searchAge = $("#searchAge").val().trim();
-var searchNeutered = $("#searchNeutered").prop("checked");
-var searchVaccinated = $("#searchVaccinated").prop("checked");
-var searchHouseTrained = $("#searchHouseTrained").prop("checked");
-var searchNoKids = $("#searchNoKids").prop("checked");
-var searchNoCats = $("#searchNoCats").prop("checked");
-var searchSpecialNeeds = $("#searchSpecialNeeds").prop("checked");
-if(searchSize== "Any!"){
-  searchSize = null;
-};
-if(searchGender == "Either!"){
-    searchGender = null;
-};
-if(searchAge == "Any!"){
-  searchAge = null;
-};
+    var queryURL = "https://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
+    // Getting the value of the search boxes
+    var searchZip = $("#searchZip").val().trim();
+    var searchSize = $("#searchSize").val().trim();
+    var searchGender = $("#searchGender").val().trim();
+    var searchAge = $("#searchAge").val().trim();
+    var searchNeutered = $("#searchNeutered").prop("checked");
+    var searchVaccinated = $("#searchVaccinated").prop("checked");
+    var searchHouseTrained = $("#searchHouseTrained").prop("checked");
+    var searchNoKids = $("#searchNoKids").prop("checked");
+    var searchNoCats = $("#searchNoCats").prop("checked");
+    var searchSpecialNeeds = $("#searchSpecialNeeds").prop("checked");
+    // Changing user-friendly input to usable format
+    if(searchSize== "Any!"){
+      searchSize = null;
+    };
+    if(searchGender == "Either!"){
+        searchGender = null;
+    };
+    if(searchAge == "Any!"){
+      searchAge = null;
+    };
   $.ajax({
     type : 'GET',
     url : queryURL+'&callback=?' ,
@@ -98,23 +103,28 @@ if(searchAge == "Any!"){
     },
     success : function(data) { 
       console.log(data);
+      // The pet.Find call gives back an array of 25 dogs. For each occurance....
       for(occurance=0; occurance<25; occurance++){
-        console.log(occurance);
-      setDogInfo(data, occurance);
-        var trueCounter=0;
-        var searchCounter=0;
-        // Putting the possible search parameters in an array 
-        var responseArray = [searchNeutered, searchHouseTrained, searchNoCats, searchNoKids, searchSpecialNeeds, searchVaccinated];
-        var petInfoArray = [petNeuter, petHouseTrained, petCats, petKids, petSpecial, petShots];
-        var trueResponseArray = ["Neutered/Spayed","House trained","Unknown","Unknown","Unknown","Vaccinated"]
-        for(i=0;i<responseArray.length;i++){
-          if(responseArray[i] == true){
-            searchCounter++;
-            if(petInfoArray[i] == trueResponseArray[i]){
-              trueCounter++;
+        // Run set dog info to get the variables for the current dog
+        setDogInfo(data, occurance);
+        // Create new variables to enable compounding search factors
+          var trueCounter=0;
+          var searchCounter=0;
+        // Putting the possible search parameters in an array for comparison purposes
+          var responseArray = [searchNeutered, searchHouseTrained, searchNoCats, searchNoKids, searchSpecialNeeds, searchVaccinated];
+          var petInfoArray = [petNeuter, petHouseTrained, petCats, petKids, petSpecial, petShots];
+          var trueResponseArray = ["Neutered/Spayed","House trained","Unknown","Unknown","Unknown","Vaccinated"]
+        // For each item in te responseArray, check if it is true. If it is, increase the searchCounter 
+        // Then, check if the petInfoArray contains truthy information. If so, increase the trueCounter
+          for(i=0;i<responseArray.length;i++){
+            if(responseArray[i] == true){
+              searchCounter++;
+              if(petInfoArray[i] == trueResponseArray[i]){
+                trueCounter++;
+              };
             };
           };
-        };
+        // If the number of search criteria matches the number of truthy statements, run the functions to add the dog to the DOM
         if(trueCounter == searchCounter) {
             findShelterName();
             addDogs();
@@ -335,7 +345,8 @@ function setDogInfo(data, occurance){
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
   findShelterName();
-  // Create new page elements to hold short info on dog
+  // CREATING PAGE ELEMENTS
+  // ---------------------------------------------------------------------------------------------------------------------------------
   var newDiv = $("<div class='card text-white bg-dark mb-3' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
   var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
@@ -343,6 +354,8 @@ function addDogs(){
   var mapButton=$("<button type='button' class='btn btn-dark text-warning ml-2 py-0' id='mapBtn' >Locate Me</button>");
   var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
 
+  // CHANGING CARD INFORMATION ON THE DOM
+  // ------------------------------------------------------------------------------------------------------------------------------------
   // Change the attributes and text of created elements
   newImg.attr("src", dogPhotos[2]);
   newH5.text(petName);
@@ -355,6 +368,7 @@ function addDogs(){
 newP.append(mapButton);
 
   // CREATING THE MODAL & all related classes
+  // -----------------------------------------------------------------------------------------------------------------
     var newModal = $("<div class='modal' role='dialog' aria-hidden='true'>");
     var modalDialog = $("<div class='modal-dialog' role='document'>");
     newModal.append(modalDialog);
@@ -404,51 +418,53 @@ newP.append(mapButton);
     seeMoreBtn.attr("dog", petId);
     seeMoreBtn.attr("address", shelterFullAddress);
 
-    // Changing content of the modal
-    // Title of the modal is the pet's name
-    modalTitle.append(petName);
+  // CHANGING CONTENT OF THE DOG MODAL
+    // -----------------------------------------------------------------------------------------------------
+      modalTitle.append(petName);
 
-    // Append an image at the beginning of the modalBody
-    var modalImg = $("<img>");
-    modalImg.attr("src", dogPhotos[3]);
-    modalBody.prepend(modalImg);
+      // Append an image at the beginning of the modalBody
+      var modalImg = $("<img>");
+      modalImg.attr("src", dogPhotos[3]);
+      modalBody.prepend(modalImg);
 
-    // Only post if the following qualities are KNOWN. 
-    if(petCats != "Unknown"){
-      modalAttributes.append(petCats + "<br>");
-    };
-    if(petNeuter != "Unknown"){
-      modalAttributes.append(petNeuter + "<br>");
-    };
-    if(petSpecial != "Unknown"){
-      modalAttributes.append(petSpecial + "<br>");
-    };
-    if(petKids != "Unknown"){
-      modalAttributes.append(petKids + "<br>");
-    };
-    if(petHouseTrained != "Unknown"){
-      modalAttributes.append(petHouseTrained + "<br>");
-    };
-    if(petShots != "Unknown"){
-      modalAttributes.append(petShots + "<br>");
-    };
+    // Only post attributes if the following qualities are KNOWN. 
+      if(petCats != "Unknown"){
+        modalAttributes.append(petCats + "<br>");
+      };
+      if(petNeuter != "Unknown"){
+        modalAttributes.append(petNeuter + "<br>");
+      };
+      if(petSpecial != "Unknown"){
+        modalAttributes.append(petSpecial + "<br>");
+      };
+      if(petKids != "Unknown"){
+        modalAttributes.append(petKids + "<br>");
+      };
+      if(petHouseTrained != "Unknown"){
+        modalAttributes.append(petHouseTrained + "<br>");
+      };
+      if(petShots != "Unknown"){
+        modalAttributes.append(petShots + "<br>");
+      };
 
-    modalAttributes.append(petSize+" / "+petAge+" / "+petGender+"<br>");
-    modalAttributes.append(petBreed+"<br> <a class='text-warning' href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
+      modalAttributes.append(petSize+" / "+petAge+" / "+petGender+"<br>");
+      modalAttributes.append(petBreed+"<br> <a class='text-warning' href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
 
+      
+      // Append the description to the modal description div 
+      modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
+
+      // Determine what to post to the modal contact info & appending to modal
     
-    // Append the description to the modal description div 
-    modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
+      modalContact.append("Contact the shelter to learn more about "+petName+"!");
 
-    // Determine what to post to the modal contact info & appending to modal
-  
-    modalContact.append("Contact the shelter to learn more about "+petName+"!");
-
-    // Append the phone, email, and address to the contact section
-    modalContact.append("<br> Phone: " +shelterPhone
-      +"<br> Email: "+shelterEmail+"<br> Address/Zip: "+shelterFullAddress);
+      // Append the phone, email, and address to the contact section
+      modalContact.append("<br> Phone: " +shelterPhone
+        +"<br> Email: "+shelterEmail+"<br> Address/Zip: "+shelterFullAddress);
 
 
+  // STORING INFO IN FIREBASE
+  // -----------------------------------------------------------------------------------------
   // Creating an object to hold the current pet's info and push to database
   var thisPetInfo = {
     name: petName,
@@ -476,9 +492,9 @@ newP.append(mapButton);
   };
   database.ref().push(thisPetInfo);
     
-
-  // Append to the newly created div
-  
+  // DOM MANIPULATION
+  // -------------------------------------------------------------------------------
+  // Append each element to the newly created div
   newDiv.append(newImg);
   newDiv.append(newH5);
   newDiv.append(newP);
@@ -491,6 +507,8 @@ newP.append(mapButton);
 
 };
 
+// ON-CLICK FUNCTIONALITY 
+// ------------------------------------------------------------------------------------------------------------------------------
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
   event.preventDefault();
