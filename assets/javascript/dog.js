@@ -42,7 +42,7 @@ $(document).ready(function(){
 
 // Pulls a random dog from the API
 function randomDog (){
-  var queryURL = "http://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
+  var queryURL = "https://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
   $.ajax({
     type : 'GET',
@@ -66,7 +66,7 @@ function randomDog (){
 
 // Pulls pet info based on criteria 
 function findPet (){
-var queryURL = "http://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
+var queryURL = "https://api.petfinder.com/pet.find?format=json&output=full&animal=dog&key=" + apiKey;
 var searchZip = $("#searchZip").val().trim();
 var searchSize = $("#searchSize").val().trim();
 var searchGender = $("#searchGender").val().trim();
@@ -132,7 +132,7 @@ if(searchAge == "Any!"){
 
 // Find shelter name based on ID using API 
 function findShelterName (){
-  var queryURL = "http://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
+  var queryURL = "https://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
 
     $.ajax({
       type : 'GET',
@@ -140,9 +140,7 @@ function findShelterName (){
       url : queryURL+'&callback=?' ,
       dataType: 'json',
       success : function(data) { 
-        console.log(data);
         shelterName = (data.petfinder.shelter.name.$t);
-        console.log(shelterName);
       },
     })
 };
@@ -183,13 +181,11 @@ function buildMap (address){
 
 // Function to set all API data received from the call to a variable  
 function setDogInfo(data, occurance){
-  console.log(data);
   // Creating a variable to shorten path to get to dog info
   petInfo = data.petfinder.pet
   if(petInfo == undefined){
    petInfo = data.petfinder.pets.pet[occurance]; 
   }
-  console.log(petInfo);
   // Name of the pet
   petName = petInfo.name.$t;
   // Age of the pet 
@@ -342,9 +338,10 @@ function addDogs(){
   // Create new page elements to hold short info on dog
   var newDiv = $("<div class='card text-white bg-dark mb-3' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
-  var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
-  var newP = $("<p class='card-text ml-2 my-0'>");
-  var mapButton=$("<button type='button' class='btn btn-dark text-warning ml-2 py-0' id='mapBtn' >Locate Me</button>");
+  var newH5 = $("<h5 class='card-title'>");
+  var newP = $("<p class='card-text'>");
+  var mapButton=$("<button type='button' class='btn btn-primary' id='mapBtn' >Locate Me</button>");
+  var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
 
   // Change the attributes and text of created elements
   newImg.attr("src", dogPhotos[2]);
@@ -390,13 +387,14 @@ newP.append(mapButton);
     modalFooter.append(closeButton);
     var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
+    
 
     // Giving the modal an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
 
     // Linking the button to the modal for the pet with a matching Id
-    var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
+
     seeMoreBtn.attr("data-target", "#"+petId);
     // Adding attributes for use in Google Maps API
     seeMoreBtn.attr("dog", petId);
@@ -519,16 +517,28 @@ $("body").on("click", "#seeMoreBtn",function(){
   var address=document.getElementById("seeMoreBtn").getAttribute("address");
   shelterFullAddress = address;
   console.log(address);
-
-
   reset();
 })
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
-    event.preventDefault();
-    // Set value of database isFavorite to true
+    
+    // $("#favorite").fadeOut();
+    var newRemoveBtn = $("<button type='button' class='btn btn-primary' id='remove'>Remove from Favorites</button>");
+    console.log(this);
+    var favCard = $(this)
+      .parentsUntil(".modal")
+      .appendTo($(".favorites"));
+    $(favCard).append(newRemoveBtn);
+        // Set value of database isFavorite to true
     // show all database isfavorites == true on page 
+});
+
+// When user clickes "Add to Favorites," run the following
+$("body").on("click", "#remove", function(){
+  $("#remove").fadeOut();
+  $("#favorite").fadeIn();
+  
 });
 
 // When the user clicks "search," run the following 
