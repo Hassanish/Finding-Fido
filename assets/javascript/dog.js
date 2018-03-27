@@ -390,6 +390,11 @@ newP.append(mapButton);
     // Creates a div to hold the pet descr
     var modalDesc=$("<div class='modal-dog-desc text-muted'>");
     modalBody.append(modalDesc);
+    // Creates a collapse for the pet descr & content section
+    var modalCollapseBtn =$("<button class='btn btn-primary' type='button' data-toggle='collapse' data-target='#descr' aria-expanded='true' aria-controls='#descr'>Description</button>")
+    var modalCollapse = $("<div class='collapse'>");
+    modalDesc.append(modalCollapseBtn);
+    modalDesc.append(modalCollapse);
     // Creates a div to hold the contact shelter info
     var modalContact=$("<div class='shelter-contact'>");
     modalBody.append(modalContact);
@@ -403,13 +408,20 @@ newP.append(mapButton);
     modalFooter.append(favoriteButton);
     var newRemoveBtn = $("<button type='button' class='btn btn-primary' id='remove'>Remove from Favorites</button>");
     modalFooter.append(newRemoveBtn);
-
+    // Immediately hiding the remove button
     newRemoveBtn.css("display", "none");
+
+
+
+
     
 
-    // Giving the modal an id of the pet 
+    // Giving the modal & collapse an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
+    modalCollapse.attr("id", petId+"descr");
+    modalCollapseBtn.attr("aria-controls", petId+"descr");
+    modalCollapseBtn.attr("data-target", "#"+petId+"descr");
 
     // Linking the button to the modal for the pet with a matching Id
 
@@ -450,9 +462,8 @@ newP.append(mapButton);
       modalAttributes.append(petSize+" / "+petAge+" / "+petGender+"<br>");
       modalAttributes.append(petBreed+"<br> <a class='text-warning' href='"+breedSite+"' target=_blank>Find out more about "+petBreed+"s!");
 
-      
       // Append the description to the modal description div 
-      modalDesc.append("Details about "+petName+" from the shelter: <br>"+petDesc + '<br>');
+      modalCollapse.append(petDesc);
 
       // Determine what to post to the modal contact info & appending to modal
     
