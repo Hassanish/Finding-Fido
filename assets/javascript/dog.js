@@ -383,10 +383,14 @@ newP.append(mapButton);
     var modalFooter =$("<div class='modal-footer'>");
     modalContent.append(modalFooter);
     // Creates buttons in the footer for closeing the modal and adding to favorites
-    var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+    var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal' id='closeBtn'>Close</button>");
     modalFooter.append(closeButton);
     var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
+    var newRemoveBtn = $("<button type='button' class='btn btn-primary' id='remove'>Remove from Favorites</button>");
+    modalFooter.append(newRemoveBtn);
+
+    newRemoveBtn.css("display", "none");
     
 
     // Giving the modal an id of the pet 
@@ -508,7 +512,6 @@ $("#showDogs").on("click", function(){
 
 // When the user clicks the "see more" button 
 $("body").on("click", "#seeMoreBtn",function(){
-  event.preventDefault();
   // Setting a variable to get the petId of the current dog to match with the map div
   var id=document.getElementById("seeMoreBtn").getAttribute("dog");
   console.log(id);
@@ -522,14 +525,16 @@ $("body").on("click", "#seeMoreBtn",function(){
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
-    
-    // $("#favorite").fadeOut();
-    var newRemoveBtn = $("<button type='button' class='btn btn-primary' id='remove'>Remove from Favorites</button>");
-    console.log(this);
-    var favCard = $(this)
-      .parentsUntil(".modal")
-      .appendTo($(".favorites"));
-    $(favCard).append(newRemoveBtn);
+
+    $(this).closest("#favorite").fadeOut();
+    $(this).siblings("#closeBtn").css("display", "none");
+    $(this).siblings("#remove").css("display", "block");
+    console.log($(this).closest("#favorite"));
+    $(this)
+      .parentsUntil(".modal-dialog")
+      .appendTo($(".favorites"))
+  
+
         // Set value of database isFavorite to true
     // show all database isfavorites == true on page 
 });
