@@ -101,17 +101,29 @@ if(searchAge == "Any!"){
       for(occurance=0; occurance<25; occurance++){
         console.log(occurance);
       setDogInfo(data, occurance);
-      // if((searchNeutered==true && petNeuter=="Neutered/Spayed") ||
-      //   (searchHouseTrained==true && petHouseTrained=="House trained") ||
-      //   (searchNoCats==true && petCats!="Not good with cats") ||
-      //   (searchNoKids==true && petKids!="Not good with children") ||
-      //   (searchSpecialNeeds==true && petSpecial !="This dog has special needs. Please contact the shelter to learn more.") ||
-      //   (searchVaccinated==true && petShots=="Vaccinated")) {
-          findShelterName();
-          addDogs();
-          reset();
-      // }
-      }
+        var trueCounter=0;
+        var searchCounter=0;
+        // Putting the possible search parameters in an array 
+        var responseArray = [searchNeutered, searchHouseTrained, searchNoCats, searchNoKids, searchSpecialNeeds, searchVaccinated];
+        var petInfoArray = [petNeuter, petHouseTrained, petCats, petKids, petSpecial, petShots];
+        var trueResponseArray = ["Neutered/Spayed","House trained","Unknown","Unknown","Unknown","Vaccinated"]
+        for(i=0;i<responseArray.length;i++){
+          if(responseArray[i] == true){
+            searchCounter++;
+            console.log(searchCounter);
+            if(petInfoArray[i] == trueResponseArray[i]){
+              trueCounter++;
+              console.log(trueCounter);
+            };
+          };
+        };
+        if(trueCounter == searchCounter) {
+            findShelterName();
+            addDogs();
+            
+        };
+        reset();
+      };
     },
     error : function (request, error)
     {
@@ -163,6 +175,8 @@ function reset(){
   shelterState=" ";
   shelterFullAddress= " ";
   dogPhotos =[];
+  trueCounter = 0;
+  searchCounter =0;
 };
 
 // Dummy function to communicate with map.js 
@@ -385,7 +399,7 @@ function addDogs(){
     modalMap.attr("id", petId + "map");
 
     // Linking the button to the modal for the pet with a matching Id
-    var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>See More</button>");
+    var seeMoreBtn = $("<button type='button' class='btn btn-primary' id='seeMoreBtn' data-toggle='modal'>Learn more about "+petName+"</button>");
     seeMoreBtn.attr("data-target", "#"+petId);
     // Adding attributes for use in Google Maps API
     seeMoreBtn.attr("dog", petId);
