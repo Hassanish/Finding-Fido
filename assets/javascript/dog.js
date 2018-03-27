@@ -336,7 +336,7 @@ function setDogInfo(data, occurance){
 function addDogs(){
   findShelterName();
   // Create new page elements to hold short info on dog
-  var newDiv = $("<div class='card' style='width: 18rem'>");
+  var newDiv = $("<div class='card text-white bg-dark mb-3' style='width: 18rem'>");
   var newImg = $("<img class='card-img-top'>");
   var newH5 = $("<h5 class='card-title'>");
   var newP = $("<p class='card-text'>");
@@ -394,6 +394,7 @@ newP.append(mapButton);
     newModal.attr("aria-labelledby", petId);
 
     // Linking the button to the modal for the pet with a matching Id
+
     seeMoreBtn.attr("data-target", "#"+petId);
     // Adding attributes for use in Google Maps API
     seeMoreBtn.attr("dog", petId);
@@ -496,7 +497,7 @@ $("#showDogs").on("click", function(){
   // Fade in the random dogs
   $(".randomDog").fadeIn();
   // Fade in the search form
-  $(".searchBox").fadeIn(2000);
+  // $(".searchBox").fadeIn(2000);
   // Run the random dog function 10 times
   for(i=0;i<10;i++){
     randomDog();
