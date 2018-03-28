@@ -43,28 +43,28 @@ $(document).ready(function(){
 
 // DEFINING FUNCTIONS
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------
-  // Pulls a random dog from the API
-  function randomDog (){
-    var queryURL = "https://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
+// Pulls a random dog from the API
+function randomDog (){
+  var queryURL = "https://api.petfinder.com/pet.getRandom?format=json&output=full&animal=dog&key=" + apiKey;
 
-    $.ajax({
-      type : 'GET',
-      data : {},
-      url : queryURL+'&callback=?' ,
-      dataType: 'json',
-      success : function(data) { 
-        setDogInfo(data, 0);
-        // findShelterName();
-        addDogs();
-        reset();
-        
-      },
-      error : function (request, error)
-      {
-        alert("Request: "+JSON.stringify(request));
-      }
-    })
-  };
+  $.ajax({
+    type : 'GET',
+    data : {},
+    url : queryURL+'&callback=?' ,
+    dataType: 'json',
+    success : function(data) { 
+      setDogInfo(data, 0);
+      // findShelterName();
+      addDogs();
+      reset();
+      
+    },
+    error : function (request, error)
+    {
+      alert("Request: "+JSON.stringify(request));
+    }
+  })
+};
 
 
 // Pulls pet info based on criteria 
@@ -189,6 +189,10 @@ function reset(){
 function buildMap (address){
 };
 
+function setPetBreed(pet, breed){
+  
+}
+
 // Function to set all API data received from the call to a variable  
 function setDogInfo(data, occurance){
   // Creating a variable to shorten path to get to dog info
@@ -212,6 +216,8 @@ function setDogInfo(data, occurance){
     petGender = "Female"
   };
 
+  // CREATING THE BREED SITE LINK TO AKC
+  // ------------------------------------------------------------------------------------------------
   // Var to determine the breed of the pet. If multiple breeds, set the first value equal to the breed value
   if (petInfo.breeds.breed[0] != undefined) {
     petBreed = petInfo.breeds.breed[0];
@@ -219,9 +225,33 @@ function setDogInfo(data, occurance){
   } else {
     petBreed = petInfo.breeds.breed.$t;
   };
-  // Changing pit bull terrier to AKC name
+  // Changing specific breeds to AKC friendly 
   if (petBreed == "Pit Bull Terrier") {
     petBreed = "American Staffordshire Terrier"
+  };
+  if (petBreed == "English Bulldog" || petBreed=="American Bulldog") {
+    petBreed = "Bulldog"
+  };
+  if (petBreed == "Coonhound") {
+    petBreed = "Black and Tan Coonhound"
+  };
+  if (petBreed == "Black mouth cur" || petBreed =="Mountain cur") {
+    petBreed = "Hound"
+  };
+  if (petBreed == "Mixed Breed") {
+    petBreed = " "
+  };
+  if (petBreed == "Australian Cattle Dog / Blue Heeler") {
+    petBreed = "Australian Cattle Dog"
+  };
+  if (petBreed == "Yorkshire Terrier Yorkie") {
+    petBreed = "Yorkshire Terrier"
+  };
+  if (petBreed == "Shetland Sheepdog Sheltie") {
+    petBreed = "Shetland Sheepdog"
+  };
+  if (petBreed == "Schnauzer") {
+    petBreed = "Standard Schnauezer"
   };
   //Splitting the bread in separate strings
   var breedSplit = petBreed.split(" ");
@@ -235,7 +265,16 @@ function setDogInfo(data, occurance){
       breedSite += breed;
     };
   };
-  console.log(breedSite);
+
+  if (petBreed=="Terrier" || petBreed=="Hound") {
+    breedSite = "http://www.akc.org/dog-breeds/groups/"+petBreed
+  };
+  if(petBreed=="Spaniel"){
+    breedSite="http://www.akc.org/dog-breeds/groups/sporting/"
+  };
+  if(petBreed=="Shepherd"){
+    breedSite="http://www.akc.org/dog-breeds/groups/herding/"
+  };
 
   // Breed size 
   petSize = petInfo.size.$t;
@@ -391,7 +430,7 @@ function addDogs(){
     var modalDesc=$("<div class='modal-dog-desc text-muted'>");
     modalBody.append(modalDesc);
     // Creates a collapse for the pet descr & content section
-    var modalCollapseBtn =$("<button class='btn btn-primary' type='button' data-toggle='collapse' data-target='#descr' aria-expanded='true' aria-controls='#descr'>Description</button>")
+    var modalCollapseBtn =$("<button class='btn btn-dark' type='button' data-toggle='collapse' data-target='#descr' aria-expanded='true' aria-controls='#descr'>Description</button>")
     var modalCollapse = $("<div class='collapse'>");
     modalDesc.append(modalCollapseBtn);
     modalDesc.append(modalCollapse);
