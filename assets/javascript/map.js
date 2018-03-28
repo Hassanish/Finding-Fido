@@ -71,7 +71,8 @@ var mapLocation;
             // label: 'Extra Extra Extra Extra Extra Loooooong Name'
         });
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        console.log('Geocode was not successful for the following reason: ' + status);
+        alert("Sorry! We couldn't find your shelter.");
       }
     });
   }
