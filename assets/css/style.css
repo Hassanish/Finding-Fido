@@ -50,37 +50,41 @@ header h1 {
 }
 
 
-   .galleryItem {
-    color: #797478;
-    font: 10px/1.5 Verdana, Helvetica, sans-serif;
-    float: left;
-   }
-    
-   .galleryItem h3 {
-    text-transform: uppercase;
-   }
-    
-   .galleryItem img {
-    max-width: 100%;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-   }
-
-   .btn-primary, .bg-dark {
-    background-color: #751113 !important;
-    border-color: #751113 !important;
-  }
+.galleryItem {
+  color: #797478;
+  font: 10px/1.5 Verdana, Helvetica, sans-serif;
+  float: left;
+}
   
-  .btn-dark {
-    background-color: #3b0708 !important;
-    border-color: #3b0708 !important;
-  }
-
-  #favs{
-    display: none
-  }
+.galleryItem h3 {
+  text-transform: uppercase;
+}
   
+.galleryItem img {
+  max-width: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.btn-primary, .bg-dark {
+  background-color: #751113 !important;
+  border-color: #751113 !important;
+}
+
+.btn-dark {
+  background-color: #3b0708 !important;
+  border-color: #3b0708 !important;
+}
+
+#favs{
+  display: none
+}
+
+#search{
+  margin-left:10px;
+}
+
 
    /* #mapBtn {
      
