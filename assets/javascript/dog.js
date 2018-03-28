@@ -406,7 +406,7 @@ function addDogs(){
     var modalDialog = $("<div class='modal-dialog' role='document'>");
     newModal.append(modalDialog);
     // Creates main content of modal
-    var modalContent=$("<div class='modal-content bg-dark'>");
+    var modalContent=$("<div class='modal-content bg-dark text-white'>");
     modalDialog.append(modalContent);
     // Creates the div to hold the modal header
     var modalHeader=$("<div class='modal-header'>");
@@ -434,7 +434,7 @@ function addDogs(){
     // Creates a div for the modal footer
     var modalFooter =$("<div class='modal-footer'>");
     modalContent.append(modalFooter);
-    // Creates buttons in the footer for closeing the modal and adding to favorites
+    // Creates buttons in the footer for closing the modal and adding to favorites
     var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal' id='closeBtn'>Close</button>");
     modalFooter.append(closeButton);
     var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
@@ -584,7 +584,7 @@ $("body").on("click", "#favorite", function(){
     $(this).siblings("#closeBtn").css("display", "none");
     $(this).siblings("#remove").css("display", "block");
     console.log($(this).closest("#favorite"));
-    var favDog = $("<div class='favDog'>")
+    var favDog = $("<div class='favDog col-md-4'>")
     $(this)
       .parentsUntil(".modal-dialog")
       .appendTo($(favDog));
