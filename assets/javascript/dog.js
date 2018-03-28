@@ -250,6 +250,12 @@ function setDogInfo(data, occurance){
   if (petBreed == "Schnauzer") {
     petBreed = "Standard Schnauezer"
   };
+  if (petBreed == "Corgi") {
+    petBreed = "Cardigan Welsh Corgi"
+  };
+  if (petBreed == "Yellow Labrador Retriever" || petBreed == "Chocolate Labrador Retriever"||petBreed == "Black Labrador Retriever" || petBreed == "Retriever") {
+    petBreed = "Labrador Retiever"
+  };
   //Splitting the bread in separate strings
   var breedSplit = petBreed.split(" ");
   breedSite = "http://www.akc.org/dog-breeds/"
@@ -624,3 +630,5 @@ $("body").on("click", "#search", function(event){
 });
 
 });
+
+// END OF FILE
