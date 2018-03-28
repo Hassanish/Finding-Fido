@@ -152,7 +152,11 @@ function findShelterName (){
       success : function(data) { 
         shelterName = (data.petfinder.shelter.name.$t);
       },
-    })
+      error : function (request, error)
+      {
+        alert("Request: "+JSON.stringify(request));
+      }
+  })
 };
 
 
@@ -257,6 +261,21 @@ function setDogInfo(data, occurance){
     } else {
       breedSite += breed;
     };
+    // console.log(breedSite);
+
+    // Breed size 
+    petSize = petInfo.size.$t;
+
+    // Converting size into full word
+    if (petSize == "L") {
+      petSize = "Large";
+    } else if (petSize == "M") {
+      petSize = "Medium";
+    } else if (petSize == "S") {
+      petSize = "Small";
+    } else {
+      petSize = "Extra Large"
+    };
   };
 
   if (petBreed=="Terrier" || petBreed=="Hound") {
@@ -358,20 +377,7 @@ function setDogInfo(data, occurance){
   if(shelterState == undefined){
     shelterState = "Not Available";
   };
-
-  // Full address of shelter"
-  if (petInfo.contact.address1.$t != undefined) {
-    shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
-      + shelterState + ", " + shelterZip;
-  } else {
-    shelterFullAddress = shelterZip;
-  };
-
-  // buildMap(shelterFullAddress);
-  // ID of the shelter
-  shelterID = petInfo.shelterId.$t;
-
-
+ 
 };
 
 //Function to add summary dog cards and modals for each dog
@@ -575,7 +581,8 @@ $("body").on("click", ".mapBtn",function(){
   console.log("shelterZip at onclick is :" + shelterZip);
   initialize(shelterZip);
   reset();
-})
+});
+
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
