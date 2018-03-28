@@ -235,9 +235,6 @@ function setDogInfo(data, occurance){
   if (petBreed == "Black mouth cur" || petBreed =="Mountain cur") {
     petBreed = "Hound"
   };
-  if (petBreed == "Mixed Breed") {
-    petBreed = " "
-  };
   if (petBreed == "Australian Cattle Dog / Blue Heeler") {
     petBreed = "Australian Cattle Dog"
   };
@@ -292,6 +289,9 @@ function setDogInfo(data, occurance){
   };
   if(petBreed=="Shepherd"){
     breedSite="http://www.akc.org/dog-breeds/groups/herding/"
+  };
+  if(petBreed=="Mixed Breed"){
+    breedSite="https://www.thespruce.com/mixed-breed-dogs-2804607"
   };
 
   // Breed size 
