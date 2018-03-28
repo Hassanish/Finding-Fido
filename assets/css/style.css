@@ -14,6 +14,16 @@ html, body {
   background-image: url("../images/doghome.jpg");
   background-size: cover;
   background-position: center; 
+}
+
+#homedog {
+  position: relative;
+}
+#showDogs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
 }
 
@@ -29,6 +39,16 @@ header h1 {
   text-transform: uppercase;
   line-height: 85%;
 }
+
+#favs {
+  font-family: "Arial Black", Helvetica, sans-serif;
+  font-size: 3rem;
+  letter-spacing: -.04em;
+  color: #751113;
+  text-transform: uppercase;
+  line-height: 85%;
+}
+
 /* #showDogs {
   display: block;
   margin: auto;
@@ -51,6 +71,11 @@ header h1 {
   border-color: #3b0708 !important;
 }
 
+/* #map {
+  border-width: 6px;
+  border-style: solid;
+  border-color: #3b0708;
+} */
 
 .galleryItem {
   color: #797478;
@@ -67,6 +92,10 @@ header h1 {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+}
+
+body {
+background-color: #ede8cf;
 }
 
 .btn-primary, .bg-dark {
@@ -87,6 +116,10 @@ header h1 {
   margin-left:10px;
 }
 
+.border-top {
+  /* border-style:solid; */
+   border-width: 2px;
+  }
 
    /* #mapBtn {
      
