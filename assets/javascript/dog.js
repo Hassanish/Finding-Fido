@@ -152,7 +152,11 @@ function findShelterName (){
       success : function(data) { 
         shelterName = (data.petfinder.shelter.name.$t);
       },
-    })
+      error : function (request, error)
+      {
+        alert("Request: "+JSON.stringify(request));
+      }
+  })
 };
 
 
@@ -349,6 +353,32 @@ function setDogInfo(data, occurance){
 
   // Zip code of shelter
   shelterZip = petInfo.contact.zip.$t;
+
+  // Email contact of shelter
+  shelterEmail = petInfo.contact.email.$t; 
+  if(shelterEmail == undefined){
+    shelterEmail = "Not Available";
+  };
+
+  // Phone number of the shelter
+  shelterPhone = petInfo.contact.phone.$t;
+  if(shelterPhone == undefined){
+    shelterPhone = "Not Available";
+  };
+
+  // City location of the shelter
+  shelterCity = petInfo.contact.city.$t;
+  if(shelterCity == undefined){
+    shelterCity = " ";
+  };
+
+  // State location of the shelter
+  shelterState = petInfo.contact.state.$t;
+  if(shelterState == undefined){
+    shelterState = "Not Available";
+  };
+ 
+};
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
