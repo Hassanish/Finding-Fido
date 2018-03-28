@@ -257,6 +257,21 @@ function setDogInfo(data, occurance){
     } else {
       breedSite += breed;
     };
+    // console.log(breedSite);
+
+    // Breed size 
+    petSize = petInfo.size.$t;
+
+    // Converting size into full word
+    if (petSize == "L") {
+      petSize = "Large";
+    } else if (petSize == "M") {
+      petSize = "Medium";
+    } else if (petSize == "S") {
+      petSize = "Small";
+    } else {
+      petSize = "Extra Large"
+    };
   };
 
   if (petBreed=="Terrier" || petBreed=="Hound") {
@@ -334,45 +349,6 @@ function setDogInfo(data, occurance){
 
   // Zip code of shelter
   shelterZip = petInfo.contact.zip.$t;
-
-  // Email contact of shelter
-  shelterEmail = petInfo.contact.email.$t; 
-  if(shelterEmail == undefined){
-    shelterEmail = "Not Available";
-  };
-
-  // Phone number of the shelter
-  shelterPhone = petInfo.contact.phone.$t;
-  if(shelterPhone == undefined){
-    shelterPhone = "Not Available";
-  };
-
-  // City location of the shelter
-  shelterCity = petInfo.contact.city.$t;
-  if(shelterCity == undefined){
-    shelterCity = " ";
-  };
-
-  // State location of the shelter
-  shelterState = petInfo.contact.state.$t;
-  if(shelterState == undefined){
-    shelterState = "Not Available";
-  };
-
-  // Full address of shelter"
-  if (petInfo.contact.address1.$t != undefined) {
-    shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
-      + shelterState + ", " + shelterZip;
-  } else {
-    shelterFullAddress = shelterZip;
-  };
-
-  // buildMap(shelterFullAddress);
-  // ID of the shelter
-  shelterID = petInfo.shelterId.$t;
-
-
-};
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
@@ -575,7 +551,8 @@ $("body").on("click", ".mapBtn",function(){
   console.log("shelterZip at onclick is :" + shelterZip);
   initialize(shelterZip);
   reset();
-})
+});
+
 
 // When user clickes "Add to Favorites," run the following
 $("body").on("click", "#favorite", function(){
