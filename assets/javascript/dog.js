@@ -384,7 +384,7 @@ function addDogs(){
   var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
   var newP = $("<p class='card-text ml-2 my-0'>");
   var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
-  var mapButton = $("<button type='button' class='btn btn-primary' id='mapBtn' data-toggle='modal' data-target='locate'>Locate Me</button>");
+  var mapButton = $("<button type='button' class='btn btn-primary mapBtn'>Locate Me</button>");
   
 
   // CHANGING CARD INFORMATION ON THE DOM
@@ -456,8 +456,7 @@ function addDogs(){
     seeMoreBtn.attr("data-target", "#"+petId);
     mapButton.attr("data-target", petId );
     // Adding attributes for use in Google Maps API
-    mapButton.attr("dog", petId);
-    mapButton.attr("address", shelterFullAddress);
+    mapButton.attr("id", shelterZip);
 
   // CHANGING CONTENT OF THE DOG MODAL
     // -----------------------------------------------------------------------------------------------------
@@ -568,16 +567,13 @@ $("#showDogs").on("click", function(){
 });
 
 // When the user clicks the "see more" button 
-$("body").on("click", "#mapBtn",function(){
-  // Setting a variable to get the petId of the current dog to match with the map div
-  var id=document.getElementById("mapBtn").getAttribute("dog");
-  console.log("petId at button click is:  " + id);
-  petId = id;
-  // Setting a variable to get the address of the current dog to run the initialize function 
-  var address=document.getElementById("mapBtn").getAttribute("address");
-  shelterFullAddress = address;
-  console.log("shelterFullAddress at onclick is :" + shelterFullAddress);
-  initialize(shelterFullAddress);
+$("body").on("click", ".mapBtn",function(){
+  // Setting a variable to get the zip of the current button
+  console.log(this);
+  var address = $(this).attr("id")
+  shelterZip = address;
+  console.log("shelterZip at onclick is :" + shelterZip);
+  initialize(shelterZip);
   reset();
 })
 
