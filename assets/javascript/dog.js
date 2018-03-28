@@ -9,8 +9,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-$(document).ready(function () 
-{
+$(document).ready(function(){
 
 // DEFINING GLOBAL VARIABLES
 // -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -38,7 +37,7 @@ $(document).ready(function ()
   var shelterCity;
   var shelterState;
   var shelterFullAddress;
-  var dogPhotos = [];
+  var dogPhotos =[];
   var apiKey = "359eebb45ac45f0d4449411094f651f8";
   var thisPetInfo = {};
 
@@ -67,16 +66,6 @@ function randomDog (){
   })
 };
 
-    $.ajax({
-      type: 'GET',
-      data: {},
-      url: queryURL + '&callback=?',
-      dataType: 'json',
-      success: function (data) {
-        setDogInfo(data, 0);
-        // findShelterName();
-        addDogs();
-        reset();
 
 // Pulls pet info based on criteria 
 function findPet (){
@@ -139,30 +128,35 @@ function findPet (){
         if(trueCounter == searchCounter) {
             findShelterName();
             addDogs();
-
-          };
-          reset();
+            
         };
-      },
-      error: function (request, error) {
-        alert("Request: " + JSON.stringify(request));
-      }
-    })
-  };
+        reset();
+      };
+    },
+    error : function (request, error)
+    {
+      alert("Request: "+JSON.stringify(request));
+    }
+  })
+};
 
 // Find shelter name based on ID using API 
 function findShelterName (){
   var queryURL = "https://api.petfinder.com/shelter.get?format=json&id="+shelterID+"&key=" + apiKey;
 
     $.ajax({
-      type: 'GET',
-      data: {},
-      url: queryURL + '&callback=?',
+      type : 'GET',
+      data : {},
+      url : queryURL+'&callback=?' ,
       dataType: 'json',
       success : function(data) { 
         shelterName = (data.petfinder.shelter.name.$t);
       },
-    })
+      error : function (request, error)
+      {
+        alert("Request: "+JSON.stringify(request));
+      }
+  })
 };
 
 
@@ -241,9 +235,6 @@ function setDogInfo(data, occurance){
   if (petBreed == "Black mouth cur" || petBreed =="Mountain cur") {
     petBreed = "Hound"
   };
-  if (petBreed == "Mixed Breed") {
-    petBreed = " "
-  };
   if (petBreed == "Australian Cattle Dog / Blue Heeler") {
     petBreed = "Australian Cattle Dog"
   };
@@ -256,6 +247,12 @@ function setDogInfo(data, occurance){
   if (petBreed == "Schnauzer") {
     petBreed = "Standard Schnauezer"
   };
+  if (petBreed == "Corgi") {
+    petBreed = "Cardigan Welsh Corgi"
+  };
+  if (petBreed == "Yellow Labrador Retriever" || petBreed == "Chocolate Labrador Retriever"||petBreed == "Black Labrador Retriever" || petBreed == "Retriever") {
+    petBreed = "Labrador Retiever"
+  };
   //Splitting the bread in separate strings
   var breedSplit = petBreed.split(" ");
   breedSite = "http://www.akc.org/dog-breeds/"
@@ -265,23 +262,7 @@ function setDogInfo(data, occurance){
     if (i < breedSplit.length - 1){
       breedSite += breed + "-";
     } else {
-      petBreed = petInfo.breeds.breed.$t;
-    };
-    // Changing pit bull terrier to AKC name
-    if (petBreed == "Pit Bull Terrier") {
-      petBreed = "American Staffordshire Terrier"
-    };
-    //Splitting the bread in separate strings
-    var breedSplit = petBreed.split(" ");
-    breedSite = "http://www.akc.org/dog-breeds/"
-    //Add each string to the URL to link to the AKC site with the correct page
-    for (i = 0; i < breedSplit.length; i++) {
-      var breed = breedSplit[i];
-      if (i < breedSplit.length - 1) {
-        breedSite += breed + "-";
-      } else {
-        breedSite += breed;
-      };
+      breedSite += breed;
     };
     // console.log(breedSite);
 
@@ -309,6 +290,9 @@ function setDogInfo(data, occurance){
   if(petBreed=="Shepherd"){
     breedSite="http://www.akc.org/dog-breeds/groups/herding/"
   };
+  if(petBreed=="Mixed Breed"){
+    breedSite="https://www.thespruce.com/mixed-breed-dogs-2804607"
+  };
 
   // Breed size 
   petSize = petInfo.size.$t;
@@ -324,94 +308,83 @@ function setDogInfo(data, occurance){
     petSize = "Extra Large"
   };
 
-    // Descr from shelter
-    petDesc = petInfo.description.$t;
+  // Descr from shelter
+  petDesc = petInfo.description.$t;
 
-    // Loading photos of the dog into an array
-    dogPhotos = [];
-    for (i = 0; i < petInfo.media.photos.photo.length; i++) {
-      var currentPhoto = petInfo.media.photos.photo[i];
-      dogPhotos.push(currentPhoto.$t);
-    };
+  // Loading photos of the dog into an array
+  dogPhotos = [];
+  for(i=0; i<petInfo.media.photos.photo.length; i++){
+    var currentPhoto = petInfo.media.photos.photo[i];
+    dogPhotos.push(currentPhoto.$t);
+  };
 
-    // Background info on dog (neutered, vaccinated, good with kids, housetrained)
-    var petOptions = petInfo.options.option;
-    if (Array.isArray(petOptions)) {
-      for (i = 0; i < petOptions.length; i++) {
-        if (petOptions[i].$t == "altered") {
-          petNeuter = "Neutered/Spayed";
-        };
-        if (petOptions[i].$t == "hasShots") {
-          petShots = "Vaccinated";
-        };
-        if (petOptions[i].$t == "noKids") {
-          petKids = "Not good with children";
-        };
-        if (petOptions[i].$t == "housetrained") {
-          petHouseTrained = "House trained";
-        };
-        if (petOptions[i].$t == "noCats") {
-          petCats = "Not good with cats";
-        };
-        if (petOptions[i].$t == "specialNeeds") {
-          petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
-        };
-      };
-    } else if (petOptions.$t != undefined) {
-      if (petOptions.$t == "altered") {
+  // Background info on dog (neutered, vaccinated, good with kids, housetrained)
+  var petOptions = petInfo.options.option;
+  if (Array.isArray(petOptions)) {
+    for (i = 0; i < petOptions.length; i++) {
+      if (petOptions[i].$t == "altered") {
         petNeuter = "Neutered/Spayed";
-      } else if (petOptions.$t == "hasShots") {
+      };
+      if (petOptions[i].$t == "hasShots") {
         petShots = "Vaccinated";
-      } else if (petOptions.$t == "noKids") {
+      };
+      if (petOptions[i].$t == "noKids") {
         petKids = "Not good with children";
-      } else if (petOptions.$t == "housetrained") {
+      };
+      if (petOptions[i].$t == "housetrained") {
         petHouseTrained = "House trained";
-      } else if (petOptions.$t == "noCats") {
+      };
+      if (petOptions[i].$t == "noCats") {
         petCats = "Not good with cats";
-      } else if (petOptions.$t == "specialNeeds") {
+      };
+      if (petOptions[i].$t == "specialNeeds") {
         petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
       };
     };
-
-    // Zip code of shelter
-    shelterZip = petInfo.contact.zip.$t;
-
-    // Email contact of shelter
-    shelterEmail = petInfo.contact.email.$t;
-    if (shelterEmail == undefined) {
-      shelterEmail = "Not Available";
+  } else if (petOptions.$t != undefined) {
+    if (petOptions.$t == "altered") {
+      petNeuter = "Neutered/Spayed";
+    } else if (petOptions.$t == "hasShots") {
+      petShots = "Vaccinated";
+    } else if (petOptions.$t == "noKids") {
+      petKids = "Not good with children";
+    } else if (petOptions.$t == "housetrained") {
+      petHouseTrained = "House trained";
+    } else if (petOptions.$t == "noCats") {
+      petCats = "Not good with cats";
+    } else if (petOptions.$t == "specialNeeds") {
+      petSpecial = "This dog has special needs. Please contact the shelter to learn more.";
     };
+  };
 
-    // Phone number of the shelter
-    shelterPhone = petInfo.contact.phone.$t;
-    if (shelterPhone == undefined) {
-      shelterPhone = "Not Available";
-    };
+  // Zip code of shelter
+  shelterZip = petInfo.contact.zip.$t;
 
-    // City location of the shelter
-    shelterCity = petInfo.contact.city.$t;
-    if (shelterCity == undefined) {
-      shelterCity = " ";
-    };
+  // Email contact of shelter
+  shelterEmail = petInfo.contact.email.$t; 
+  if(shelterEmail == undefined){
+    shelterEmail = "Not Available";
+  };
 
-    // State location of the shelter
-    shelterState = petInfo.contact.state.$t;
-    if (shelterState == undefined) {
-      shelterState = "Not Available";
-    };
+  // Phone number of the shelter
+  shelterPhone = petInfo.contact.phone.$t;
+  if(shelterPhone == undefined){
+    shelterPhone = "Not Available";
+  };
 
-    // Full address of shelter"
-    if (petInfo.contact.address1.$t != undefined) {
-      shelterFullAddress = petInfo.contact.address1.$t + ", " + shelterCity + ", "
-        + shelterState + ", " + shelterZip;
-    } else {
-      shelterFullAddress = shelterZip;
-    };
+  // City location of the shelter
+  shelterCity = petInfo.contact.city.$t;
+  if(shelterCity == undefined){
+    shelterCity = " ";
+  };
 
-    // buildMap(shelterFullAddress);
-    // ID of the shelter
-    shelterID = petInfo.shelterId.$t;
-
+  // State location of the shelter
+  shelterState = petInfo.contact.state.$t;
+  if(shelterState == undefined){
+    shelterState = "Not Available";
+  };
+ 
+};
 
 //Function to add summary dog cards and modals for each dog
 function addDogs(){
@@ -422,8 +395,8 @@ function addDogs(){
   var newImg = $("<img class='card-img-top'>");
   var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
   var newP = $("<p class='card-text ml-2 my-0'>");
-  var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
-  var mapButton = $("<button type='button' class='btn btn-primary mapBtn'>Locate Me</button>");
+  var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info</button>");
+  var mapButton = $("<button type='button' class='btn btn-primary mapBtn'>  <a class='mapLink' href='#map'>Locate Me</a></button>");
   
 
   // CHANGING CARD INFORMATION ON THE DOM
@@ -445,19 +418,19 @@ function addDogs(){
     var modalDialog = $("<div class='modal-dialog' role='document'>");
     newModal.append(modalDialog);
     // Creates main content of modal
-    var modalContent=$("<div class='modal-content bg-dark'>");
+    var modalContent=$("<div class='modal-content bg-dark text-white'>");
     modalDialog.append(modalContent);
     // Creates the div to hold the modal header
-    var modalHeader = $("<div class='modal-header'>");
+    var modalHeader=$("<div class='modal-header'>");
     modalContent.append(modalHeader);
     // Creates the div to hold the modal title & append to header
     var modalTitle=$("<h5 class='modal-title text-warning'>");
     modalHeader.append(modalTitle);
     // Creates the div for the body of the modal
-    var modalBody = $("<div class='modal-body'>");
+    var modalBody=$("<div class='modal-body'>");
     modalContent.append(modalBody);
     // Creates a div to hold the attributes of the pet
-    var modalAttributes = $("<div class='modal-dog-attr'>");
+    var modalAttributes=$("<div class='modal-dog-attr'>");
     modalBody.append(modalAttributes);
     // Creates a div to hold the pet descr
     var modalDesc=$("<div class='modal-dog-desc text-muted'>");
@@ -468,15 +441,15 @@ function addDogs(){
     modalDesc.append(modalCollapseBtn);
     modalDesc.append(modalCollapse);
     // Creates a div to hold the contact shelter info
-    var modalContact = $("<div class='shelter-contact'>");
+    var modalContact=$("<div class='shelter-contact'>");
     modalBody.append(modalContact);
     // Creates a div for the modal footer
-    var modalFooter = $("<div class='modal-footer'>");
+    var modalFooter =$("<div class='modal-footer'>");
     modalContent.append(modalFooter);
-    // Creates buttons in the footer for closeing the modal and adding to favorites
+    // Creates buttons in the footer for closing the modal and adding to favorites
     var closeButton=$("<button type='button' class='btn btn-secondary' data-dismiss='modal' id='closeBtn'>Close</button>");
     modalFooter.append(closeButton);
-    var favoriteButton = $("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
+    var favoriteButton=$("<button type='button' class='btn btn-primary' id='favorite'>Add to Favorites</button>");
     modalFooter.append(favoriteButton);
     var newRemoveBtn = $("<button type='button' class='btn btn-primary' id='remove'>Remove from Favorites</button>");
     modalFooter.append(newRemoveBtn);
@@ -584,7 +557,7 @@ function addDogs(){
   $(".randomDog").prepend(newDiv);
 
 
-    // Append to the newly created div
+};
 
 // ON-CLICK FUNCTIONALITY 
 // ------------------------------------------------------------------------------------------------------------------------------
@@ -603,6 +576,7 @@ $("#showDogs").on("click", function(){
     reset();
   }; 
 
+});
 
 // When the user clicks the "see more" button 
 $("body").on("click", ".mapBtn",function(){
@@ -613,9 +587,7 @@ $("body").on("click", ".mapBtn",function(){
   console.log("shelterZip at onclick is :" + shelterZip);
   initialize(shelterZip);
   reset();
-})
-  });
-
+});
 
 
 // When user clickes "Add to Favorites," run the following
@@ -625,7 +597,7 @@ $("body").on("click", "#favorite", function(){
     $(this).siblings("#closeBtn").css("display", "none");
     $(this).siblings("#remove").css("display", "block");
     console.log($(this).closest("#favorite"));
-    var favDog = $("<div class='favDog'>")
+    var favDog = $("<div class='favDog col-md-4'>")
     $(this)
       .parentsUntil(".modal-dialog")
       .appendTo($(favDog));
@@ -657,4 +629,6 @@ $("body").on("click", "#search", function(event){
 
 });
 
-// initialize (map, shelterFullAddress);
+});
+
+// END OF FILE
