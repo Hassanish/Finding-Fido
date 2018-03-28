@@ -384,7 +384,7 @@ function addDogs(){
   var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
   var newP = $("<p class='card-text ml-2 my-0'>");
   var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
-  var mapButton = $("<button type='button' class='btn btn-primary mapBtn'>Locate Me</button>");
+  var mapButton = $("<button type='button' class='btn btn-primary mapBtn'>  <a class='mapLink' href='#map'>Locate Me</a></button>");
   
 
   // CHANGING CARD INFORMATION ON THE DOM
