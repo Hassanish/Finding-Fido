@@ -158,40 +158,33 @@ function findShelterName (){
 
 // Reset function to clear variables
 function reset(){
-  petInfo= " ";
+  petInfo = " ";
   petName = " ";
-  petAge= " ";
-  petGender= " ";
-  petBreed= " ";
-  petSize= " ";
-  breedSite= " ";
-  petDesc= " ";
+  petAge = " ";
+  petGender = " ";
+  petBreed = " ";
+  petSize = " ";
+  breedSite = " ";
+  petDesc = " ";
   petNeuter = "Unknown";
   petShots = "Unknown";
   petKids = "Unknown";
   petHouseTrained = "Unknown";
   petCats = "Unknown";
   petSpecial = "Unknown";
-  shelterEmail= " ";
-  shelterPhone= " ";
-  shelterZip= " ";
-  shelterID= " ";
-  shelterName= " ";
-  shelterCity= " ";
-  shelterState=" ";
-  shelterFullAddress= " ";
-  dogPhotos =[];
+  shelterEmail = " ";
+  shelterPhone = " ";
+  shelterZip = " ";
+  shelterID = " ";
+  shelterName = " ";
+  shelterCity = " ";
+  shelterState = " ";
+  shelterFullAddress = " ";
+  dogPhotos = [];
   trueCounter = 0;
-  searchCounter =0;
+  searchCounter = 0;
 };
 
-// Dummy function to communicate with map.js 
-function buildMap (address){
-};
-
-function setPetBreed(pet, breed){
-  
-}
 
 // Function to set all API data received from the call to a variable  
 function setDogInfo(data, occurance){
@@ -390,8 +383,9 @@ function addDogs(){
   var newImg = $("<img class='card-img-top'>");
   var newH5 = $("<h5 class='card-title ml-2 mt-1 mb-0'>");
   var newP = $("<p class='card-text ml-2 my-0'>");
-  var mapButton=$("<button type='button' class='btn btn-dark text-warning ml-2 py-0' id='mapBtn' >Locate Me</button>");
   var seeMoreBtn = $("<button type='button' class='btn btn-dark text-warning mb-2 ml-2 mt-0' id='seeMoreBtn' data-toggle='modal'>More info for "+petName+"</button>");
+  var mapButton = $("<button type='button' class='btn btn-primary' id='mapBtn' data-toggle='modal' data-target='locate'>Locate Me</button>");
+  
 
   // CHANGING CARD INFORMATION ON THE DOM
   // ------------------------------------------------------------------------------------------------------------------------------------
@@ -404,7 +398,7 @@ function addDogs(){
     newP.text(petBreed);
   };
 
-  newP.append(mapButton);
+  // newP.append(mapButton);
 
   // CREATING THE MODAL & all related classes
   // -----------------------------------------------------------------------------------------------------------------
@@ -451,10 +445,6 @@ function addDogs(){
     newRemoveBtn.css("display", "none");
 
 
-
-
-    
-
     // Giving the modal & collapse an id of the pet 
     newModal.attr("id", petId);
     newModal.attr("aria-labelledby", petId);
@@ -463,11 +453,11 @@ function addDogs(){
     modalCollapseBtn.attr("data-target", "#"+petId+"descr");
 
     // Linking the button to the modal for the pet with a matching Id
-
     seeMoreBtn.attr("data-target", "#"+petId);
+    mapButton.attr("data-target", petId );
     // Adding attributes for use in Google Maps API
-    seeMoreBtn.attr("dog", petId);
-    seeMoreBtn.attr("address", shelterFullAddress);
+    mapButton.attr("dog", petId);
+    mapButton.attr("address", shelterFullAddress);
 
   // CHANGING CONTENT OF THE DOG MODAL
     // -----------------------------------------------------------------------------------------------------
@@ -549,11 +539,12 @@ function addDogs(){
   newDiv.append(newH5);
   newDiv.append(newP);
   newDiv.append(seeMoreBtn);
+  newDiv.append(mapButton);
   newDiv.append(newModal);
 
   // Append div to the page
   $(".randomDog").prepend(newDiv);
-  // $(".searchDog").prepend(newDiv);
+
 
 };
 
@@ -568,8 +559,6 @@ $("#showDogs").on("click", function(){
   $("#homedog").fadeOut();
   // Fade in the random dogs
   $(".randomDog").fadeIn();
-  // Fade in the search form
-  // $(".searchBox").fadeIn(2000);
   // Run the random dog function 10 times
   for(i=0;i<10;i++){
     randomDog();
@@ -579,15 +568,16 @@ $("#showDogs").on("click", function(){
 });
 
 // When the user clicks the "see more" button 
-$("body").on("click", "#seeMoreBtn",function(){
+$("body").on("click", "#mapBtn",function(){
   // Setting a variable to get the petId of the current dog to match with the map div
-  var id=document.getElementById("seeMoreBtn").getAttribute("dog");
-  console.log(id);
+  var id=document.getElementById("mapBtn").getAttribute("dog");
+  console.log("petId at button click is:  " + id);
   petId = id;
   // Setting a variable to get the address of the current dog to run the initialize function 
-  var address=document.getElementById("seeMoreBtn").getAttribute("address");
+  var address=document.getElementById("mapBtn").getAttribute("address");
   shelterFullAddress = address;
-  console.log(address);
+  console.log("shelterFullAddress at onclick is :" + shelterFullAddress);
+  initialize(shelterFullAddress);
   reset();
 })
 
