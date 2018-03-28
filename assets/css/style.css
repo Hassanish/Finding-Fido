@@ -2,18 +2,28 @@
   width: 100%;
   height: 400px;
   
-  }
+}
   /* Optional: Makes the sample page fill the window. */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 #homedog {
   background-image: url("../images/doghome.jpg");
   background-size: cover;
   background-position: center; 
+}
+
+#homedog {
+  position: relative;
+}
+#showDogs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
 }
 
@@ -29,6 +39,16 @@ header h1 {
   text-transform: uppercase;
   line-height: 85%;
 }
+
+#favs {
+  font-family: "Arial Black", Helvetica, sans-serif;
+  font-size: 3rem;
+  letter-spacing: -.04em;
+  color: #751113;
+  text-transform: uppercase;
+  line-height: 85%;
+}
+
 /* #showDogs {
   display: block;
   margin: auto;
@@ -41,40 +61,83 @@ header h1 {
     margin: 30px auto;
     overflow: hidden;
 }
-button, bg-dark {
+.btn-primary, .bg-dark {
   background-color: #751113 !important;
   border-color: #751113 !important;
 }
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 4;
-    column-gap: 1rem;
+.btn-dark {
+  background-color: #3b0708 !important;
+  border-color: #3b0708 !important;
+}
 
+/* #map {
+  border-width: 6px;
+  border-style: solid;
+  border-color: #3b0708;
+} */
+
+.galleryItem {
+  color: #797478;
+  font: 10px/1.5 Verdana, Helvetica, sans-serif;
+  float: left;
+}
+  
+.galleryItem h3 {
+  text-transform: uppercase;
+}
+  
+.galleryItem img {
+  max-width: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+body {
+background-color: #ede8cf;
+}
+
+.btn-primary, .bg-dark {
+  background-color: #751113 !important;
+  border-color: #751113 !important;
+}
+
+.btn-dark {
+  background-color: #3b0708 !important;
+  border-color: #3b0708 !important;
+}
+
+#favs{
+  display: none
+}
+
+#search{
+  margin-left:10px;
+}
+
+a:link{
+  color: goldenrod;
+}
+
+a:visited{
+  color: goldenrod;
+}
+
+.mapLink{
+  background-color: #3b0708 !important;
+  border-color: #3b0708 !important;
+  padding: 5px;
+}
+
+.border-top {
+  /* border-style:solid; */
+   border-width: 2px;
   }
-  @include media-breakpoint-only(xl) {
-    column-count: 5;
-    column-gap: 1.25rem;
 
-  }
-
-
-   .galleryItem {
-    color: #797478;
-    font: 10px/1.5 Verdana, Helvetica, sans-serif;
-    float: left;
-   }
-    
-   .galleryItem h3 {
-    text-transform: uppercase;
-   }
-    
-   .galleryItem img {
-    max-width: 100%;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-   }
+   /* #mapBtn {
+     
+   } */
 
    /* .galleryItem {
     color: #797478;
@@ -84,4 +147,18 @@ button, bg-dark {
     width: 16%;
     margin:  2% 2% 50px 2%; 
    } */
+
+
+   .card-columns {
+    @include media-breakpoint-only(lg) {
+      column-count: 4;
+      column-gap: 1rem;
+  
+    }
+    @include media-breakpoint-only(xl) {
+      column-count: 5;
+      column-gap: 1.25rem;
+  
+    }
+
 
