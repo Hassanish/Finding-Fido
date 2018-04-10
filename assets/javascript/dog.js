@@ -563,7 +563,6 @@ function addDogs(){
 // ------------------------------------------------------------------------------------------------------------------------------
 // When user clicks "show me adoptable dogs," run the following fuctions
 $("#showDogs").on("click", function(){
-  event.preventDefault();
   // Fade out the Show me Adoptable Dogs Button
   $("#showDogs").fadeOut();
   // Fade out the home page picture
