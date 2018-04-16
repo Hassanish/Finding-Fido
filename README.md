@@ -14,8 +14,11 @@ Open the link in any browser!
 
 ## Authors
 Carolyn Smith
+
 Joe Pfahl
+
 Brian O'Connell
+
 Don Moldenhauer
 
 ## License
