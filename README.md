@@ -1,7 +1,7 @@
 # Finding Fido
 
 ## About
-Finding Fido is a user-friendly application that makes searching for your new best friend easy!
+Finding Fido is a web application that makes searching for your new best friend simple!
 
 ## Motivation 
 This was a group collaboration; Each contributor has (or knows) a rescue dog that is well-loved. 
