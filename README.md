@@ -22,6 +22,7 @@ Brian O'Connell
 Don Moldenhauer
 
 ## License
+MIT License
 
 
 
